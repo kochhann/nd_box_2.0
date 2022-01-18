@@ -1,0 +1,27 @@
+{% extends 'email/base_email.html' %}
+{% block content %}
+
+<div class="fancy-title title-bottom-border">
+    <h2 class="b-text">Envio de candidatura pelo sistema ND BOX | Carreiras</h2>
+</div>
+<p class="b-text">Estes são os dados enviados para {{vaga}}</p>
+<ul>
+    <li class="b-text">Nome: {{name}}</li>
+    <li class="b-text">E-mail: {{email}}</li>
+    <li class="b-text">Telefone: {{phone}}</li>
+    <li class="b-text">Área: {{area}}</li>
+</ul>
+
+<p class="b-text">
+    O currículo do candidato está anexo à esta mensagem, e deve ser excluído em 30 dias. Os dados do
+    candidato e o seu currículo serão excluídos do sistema neste mesmo prazo.
+</p>
+<p class="b-text">
+    Esta é uma mensagem automática, não responda. Para maiores informações, envie mensagem para tecnologia@nd.org.br
+</p>
+<br>
+<br>
+<h3 class="b-text">Sistema ND Box</h3>
+<p class="b-text">Associação Notre Dame</p>
+
+{% endblock %}

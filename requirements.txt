@@ -1,0 +1,22 @@
+APScheduler==3.8.1
+asgiref==3.4.1
+boto3==1.20.37
+botocore==1.23.37
+Django==3.2.10
+django-ses==2.3.1
+future==0.18.2
+jmespath==0.10.0
+mssql-django==1.1.1
+Pillow==9.0.0
+pyodbc @ file:///C:/Users/Apoio.TI/Downloads/pyodbc-4.0.32-cp310-cp310-win_amd64.whl
+python-dateutil==2.8.2
+python-decouple==3.5
+pytz==2021.3
+pytz-deprecation-shim==0.1.0.post0
+reportlab==3.6.2
+s3transfer==0.5.0
+six==1.16.0
+sqlparse==0.4.2
+tzdata==2021.5
+tzlocal==4.1
+urllib3==1.26.8
