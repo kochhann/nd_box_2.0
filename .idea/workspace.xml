@@ -3,6 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="5dfdc30b-e061-4833-9525-e061e7e9a049" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/agamotto/scheduled_task.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/agamotto/scheduled_task.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/agamotto/skurge.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/agamotto/skurge.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/carreiras/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/carreiras/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/core/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/core/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/functions.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

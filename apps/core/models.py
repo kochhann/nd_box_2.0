@@ -46,13 +46,11 @@ class Unidade(Base):
 class Curso(Base):
     id = models.AutoField(primary_key=True, blank=False, null=False)
     nome = models.CharField('Nome', max_length=200, blank=False, null=False)
-    ano = models.IntegerField('Ano', blank=False, null=False)
     gv_code = models.IntegerField('GV Code', blank=False, null=False)
     unidade = models.ForeignKey(Unidade, verbose_name='Unidade', on_delete=models.SET_NULL, blank=True, null=True)
 
     def update_from_origin(self, gv_origin):
         self.nome = gv_origin.nome.title()
-        self.ano = gv_origin.ano
         self.save()
 
     def soft_delete(self):
@@ -61,7 +59,7 @@ class Curso(Base):
         self.save()
 
     def __str__(self):
-        return self.nome
+        return self.nome + ' - ' + self.unidade.nome
 
     class Meta:
         verbose_name = 'Curso'
@@ -71,13 +69,11 @@ class Curso(Base):
 class Ciclo(Base):
     id = models.AutoField(primary_key=True, blank=False, null=False)
     nome = models.CharField('Nome', max_length=200, blank=False, null=False)
-    ano = models.IntegerField('Ano', blank=False, null=False)
     gv_code = models.IntegerField('GV Code', blank=False, null=False)
     curso = models.ForeignKey(Curso, verbose_name='Curso', on_delete=models.SET_NULL, blank=True, null=True)
 
     def update_from_origin(self, gv_origin):
         self.nome = gv_origin.nome.title()
-        self.ano = gv_origin.ano
         self.save()
 
     def soft_delete(self):

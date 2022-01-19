@@ -140,38 +140,155 @@ def get_enturmacao(gv_code, year):
     return qs
 
 
-def get_base_educacional_gv(year):
+def get_gv_curso(gv_code, year):
     cursor = connection.cursor()
-    cursor.execute("SELECT UNI.CODIGOUNIDADE,"
-                   "       PESUNI.NOMEREDUZIDO UNIDADE,"
-                   "       CUR.DESCRICAO CURSO,"
-                   "       CIC.DESCRICAO CICLO,"
-                   "       TUR.CODIGOTURMA,"
-                   "       TUR.DESCRICAO TURMA"
-                   " FROM GVContabilidade.dbo.ACD_TURMA TUR"
-                   "    INNER JOIN GVContabilidade.dbo.PAD_UNIDADE UNI"
-                   "        ON TUR.CODIGOEMPRESA = UNI.CODIGOEMPRESA"
-                   "           AND TUR.CODIGOUNIDADE = UNI.CODIGOUNIDADE"
-                   "    INNER JOIN GVContabilidade.dbo.PAD_PESSOA PESUNI"
-                   "        ON UNI.CODIGOPESSOA = PESUNI.CODIGOPESSOA"
-                   "    INNER JOIN GVContabilidade.dbo.ACD_CICLO CIC"
-                   "        ON TUR.CODIGOCICLO = CIC.CODIGOCICLO"
-                   "    INNER JOIN GVContabilidade.dbo.ACD_CURSO CUR"
-                   "        ON CIC.CODIGOCURSO = CUR.CODIGOCURSO"
-                   "    INNER JOIN GVContabilidade.dbo.ACD_ENTURMACAO ENT"
-                   "        ON TUR.CODIGOTURMA = ENT.CODIGOTURMA"
-                   " WHERE TUR.ANOINICIO = '%s'"
-                   " GROUP BY UNI.CODIGOUNIDADE,"
-                   "         PESUNI.NOMEREDUZIDO,"
-                   "         CUR.DESCRICAO,"
-                   "         CIC.DESCRICAO,"
-                   "         TUR.CODIGOTURMA,"
-                   "         TUR.DESCRICAO" % year)
+    if gv_code == 0:
+        cursor.execute("SELECT PESUNI.CODIGOPESSOA CODIGOUNIDADE,"
+                       "       PESUNI.NOMEREDUZIDO UNIDADE,"
+                       "       CUR.DESCRICAO CURSO,"
+                       "	   CUR.CODIGOCURSO GV_CODE"
+                       " FROM GVContabilidade.dbo.ACD_TURMA TUR"
+                       "    INNER JOIN GVContabilidade.dbo.PAD_UNIDADE UNI"
+                       "        ON TUR.CODIGOEMPRESA = UNI.CODIGOEMPRESA"
+                       "           AND TUR.CODIGOUNIDADE = UNI.CODIGOUNIDADE"
+                       "    INNER JOIN GVContabilidade.dbo.PAD_PESSOA PESUNI"
+                       "        ON UNI.CODIGOPESSOA = PESUNI.CODIGOPESSOA"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_CICLO CIC"
+                       "        ON TUR.CODIGOCICLO = CIC.CODIGOCICLO"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_CURSO CUR"
+                       "        ON CIC.CODIGOCURSO = CUR.CODIGOCURSO"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_ENTURMACAO ENT"
+                       "        ON TUR.CODIGOTURMA = ENT.CODIGOTURMA"
+                       " WHERE TUR.ANOINICIO = '%s'"
+                       " GROUP BY PESUNI.CODIGOPESSOA,"
+                       "         PESUNI.NOMEREDUZIDO,"
+                       "         CUR.DESCRICAO,"
+                       "	     CUR.CODIGOCURSO" % year)
+    else:
+        cursor.execute("SELECT PESUNI.CODIGOPESSOA CODIGOUNIDADE,"
+                       "       PESUNI.NOMEREDUZIDO UNIDADE,"
+                       "       CUR.DESCRICAO CURSO,"
+                       "	   CUR.CODIGOCURSO GV_CODE"
+                       " FROM GVContabilidade.dbo.ACD_TURMA TUR"
+                       "    INNER JOIN GVContabilidade.dbo.PAD_UNIDADE UNI"
+                       "        ON TUR.CODIGOEMPRESA = UNI.CODIGOEMPRESA"
+                       "           AND TUR.CODIGOUNIDADE = UNI.CODIGOUNIDADE"
+                       "    INNER JOIN GVContabilidade.dbo.PAD_PESSOA PESUNI"
+                       "        ON UNI.CODIGOPESSOA = PESUNI.CODIGOPESSOA"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_CICLO CIC"
+                       "        ON TUR.CODIGOCICLO = CIC.CODIGOCICLO"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_CURSO CUR"
+                       "        ON CIC.CODIGOCURSO = CUR.CODIGOCURSO"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_ENTURMACAO ENT"
+                       "        ON TUR.CODIGOTURMA = ENT.CODIGOTURMA"
+                       " WHERE CUR.CODIGOCURSO = '%s'"
+                       " GROUP BY PESUNI.CODIGOPESSOA,"
+                       "         PESUNI.NOMEREDUZIDO,"
+                       "         CUR.DESCRICAO,"
+                       "	     CUR.CODIGOCURSO" % gv_code)
     qs = namedtuplefetchall(cursor)
     return qs
 
 
-def user_creation(id_number):
+def get_gv_ciclo(gv_code, year):
+    cursor = connection.cursor()
+    if gv_code == 0:
+        cursor.execute("SELECT CUR.CODIGOCURSO CURSO,"
+                       "       CIC.DESCRICAO CICLO,"
+                       "       CIC.CODIGOCICLO GV_CODE"
+                       " FROM GVContabilidade.dbo.ACD_TURMA TUR"
+                       "    INNER JOIN GVContabilidade.dbo.PAD_UNIDADE UNI"
+                       "        ON TUR.CODIGOEMPRESA = UNI.CODIGOEMPRESA"
+                       "           AND TUR.CODIGOUNIDADE = UNI.CODIGOUNIDADE"
+                       "    INNER JOIN GVContabilidade.dbo.PAD_PESSOA PESUNI"
+                       "        ON UNI.CODIGOPESSOA = PESUNI.CODIGOPESSOA"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_CICLO CIC"
+                       "        ON TUR.CODIGOCICLO = CIC.CODIGOCICLO"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_CURSO CUR"
+                       "        ON CIC.CODIGOCURSO = CUR.CODIGOCURSO"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_ENTURMACAO ENT"
+                       "        ON TUR.CODIGOTURMA = ENT.CODIGOTURMA"
+                       " WHERE TUR.ANOINICIO = '%s'"
+                       " GROUP BY CUR.CODIGOCURSO,"
+                       "       CIC.DESCRICAO,"
+                       "       CIC.CODIGOCICLO" % year)
+    else:
+        cursor.execute("SELECT CUR.CODIGOCURSO CURSO,"
+                       "       CIC.DESCRICAO CICLO,"
+                       "       CIC.CODIGOCICLO GV_CODE"
+                       " FROM GVContabilidade.dbo.ACD_TURMA TUR"
+                       "    INNER JOIN GVContabilidade.dbo.PAD_UNIDADE UNI"
+                       "        ON TUR.CODIGOEMPRESA = UNI.CODIGOEMPRESA"
+                       "           AND TUR.CODIGOUNIDADE = UNI.CODIGOUNIDADE"
+                       "    INNER JOIN GVContabilidade.dbo.PAD_PESSOA PESUNI"
+                       "        ON UNI.CODIGOPESSOA = PESUNI.CODIGOPESSOA"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_CICLO CIC"
+                       "        ON TUR.CODIGOCICLO = CIC.CODIGOCICLO"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_CURSO CUR"
+                       "        ON CIC.CODIGOCURSO = CUR.CODIGOCURSO"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_ENTURMACAO ENT"
+                       "        ON TUR.CODIGOTURMA = ENT.CODIGOTURMA"
+                       " WHERE CIC.CODIGOCICLO = '%s'"
+                       " GROUP BY CUR.CODIGOCURSO,"
+                       "       CIC.DESCRICAO,"
+                       "       CIC.CODIGOCICLO" % gv_code)
+    qs = namedtuplefetchall(cursor)
+    return qs
+
+
+def get_gv_turma(gv_code, year):
+    cursor = connection.cursor()
+    if gv_code == 0:
+        cursor.execute("SELECT CIC.CODIGOCICLO CICLO,"
+                       "       TUR.CODIGOTURMA,"
+                       "       TUR.DESCRICAO TURMA,"
+                       "	   TUR.CODIGOTURMA GV_CODE,"
+                       "       TUR.ANOINICIO ANO"
+                       " FROM GVContabilidade.dbo.ACD_TURMA TUR"
+                       "    INNER JOIN GVContabilidade.dbo.PAD_UNIDADE UNI"
+                       "        ON TUR.CODIGOEMPRESA = UNI.CODIGOEMPRESA"
+                       "           AND TUR.CODIGOUNIDADE = UNI.CODIGOUNIDADE"
+                       "    INNER JOIN GVContabilidade.dbo.PAD_PESSOA PESUNI"
+                       "        ON UNI.CODIGOPESSOA = PESUNI.CODIGOPESSOA"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_CICLO CIC"
+                       "        ON TUR.CODIGOCICLO = CIC.CODIGOCICLO"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_CURSO CUR"
+                       "        ON CIC.CODIGOCURSO = CUR.CODIGOCURSO"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_ENTURMACAO ENT"
+                       "        ON TUR.CODIGOTURMA = ENT.CODIGOTURMA"
+                       " WHERE TUR.ANOINICIO = '%s'"
+                       " GROUP BY CIC.CODIGOCICLO,"
+                       "       TUR.CODIGOTURMA,"
+                       "       TUR.DESCRICAO,"
+                       "	   TUR.CODIGOTURMA,"
+                       "       TUR.ANOINICIO" % year)
+    else:
+        cursor.execute("SELECT CIC.CODIGOCICLO CICLO,"
+                       "       TUR.CODIGOTURMA,"
+                       "       TUR.DESCRICAO TURMA,"
+                       "	   TUR.CODIGOTURMA GV_CODE"
+                       " FROM GVContabilidade.dbo.ACD_TURMA TUR"
+                       "    INNER JOIN GVContabilidade.dbo.PAD_UNIDADE UNI"
+                       "        ON TUR.CODIGOEMPRESA = UNI.CODIGOEMPRESA"
+                       "           AND TUR.CODIGOUNIDADE = UNI.CODIGOUNIDADE"
+                       "    INNER JOIN GVContabilidade.dbo.PAD_PESSOA PESUNI"
+                       "        ON UNI.CODIGOPESSOA = PESUNI.CODIGOPESSOA"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_CICLO CIC"
+                       "        ON TUR.CODIGOCICLO = CIC.CODIGOCICLO"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_CURSO CUR"
+                       "        ON CIC.CODIGOCURSO = CUR.CODIGOCURSO"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_ENTURMACAO ENT"
+                       "        ON TUR.CODIGOTURMA = ENT.CODIGOTURMA"
+                       " WHERE TUR.CODIGOTURMA = '%s'"
+                       " GROUP BY CIC.CODIGOCICLO,"
+                       "       TUR.CODIGOTURMA,"
+                       "       TUR.DESCRICAO,"
+                       "	   TUR.CODIGOTURMA" % gv_code)
+    qs = namedtuplefetchall(cursor)
+    return qs
+
+
+def user_creation_autorizador(id_number):
     gv_user = get_gv_user_data(id_number, 2)
     # user = User.objects.create(
     #     username=usuario.email,

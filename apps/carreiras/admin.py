@@ -12,11 +12,6 @@ class AreaAdmin(admin.ModelAdmin):
     list_display = ['nome', 'data_criacao', 'ativo']
 
 
-@admin.register(Unidade)
-class UnidadeAdmin(admin.ModelAdmin):
-    list_display = ['nome', 'cidade', 'cnpj', 'is_school', 'ativo']
-
-
 @admin.register(Vaga)
 class VagaAdmin(admin.ModelAdmin):
     list_display = ['cod_vaga', 'unidade', 'descricao',  'preenchida', 'data_criacao', 'ativo']
