@@ -29,6 +29,8 @@ class Aluno(Base):
     nome = models.CharField("Nome", max_length=100, blank=False, null=False)
     matricula = models.IntegerField("Matrícula", blank=False, null=False)
     gv_code = models.IntegerField('GV Code', blank=False, null=False)
+    responsavel = models.ForeignKey(Autorizador, verbose_name='Autorizador', on_delete=models.PROTECT, blank=False,
+                                    null=False)
 
     def soft_delete(self):
         self.ativo = False
@@ -41,8 +43,8 @@ class Aluno(Base):
 
 class Enturmacao(Base):
     id = models.AutoField(primary_key=True, blank=False, null=False)
-    aluno = models.OneToOneField(Aluno, on_delete=models.PROTECT)
-    turma = models.OneToOneField(Turma, on_delete=models.PROTECT)
+    aluno = models.ForeignKey(Aluno, verbose_name='Aluno', on_delete=models.PROTECT, blank=False, null=False)
+    turma = models.ForeignKey(Turma, verbose_name='Turma', on_delete=models.PROTECT, blank=False, null=False)
 
     def soft_delete(self):
         self.ativo = False
@@ -58,11 +60,11 @@ class Evento(Base):
     nome = models.CharField("Nome", max_length=200, blank=False, null=False)
     descricao = models.CharField("Descricao", max_length=500, blank=False, null=False)
     data_evento = models.DateField('Data', blank=False, null=False)
-    aluno = models.OneToOneField(Aluno, on_delete=models.PROTECT, blank=True, null=True)
-    turma = models.OneToOneField(Turma, on_delete=models.PROTECT, blank=True, null=True)
-    ciclo = models.OneToOneField(Ciclo, on_delete=models.PROTECT, blank=True, null=True)
-    curso = models.OneToOneField(Curso, on_delete=models.PROTECT, blank=True, null=True)
-    unidade = models.OneToOneField(Unidade, on_delete=models.PROTECT, blank=True, null=True)
+    aluno = models.ForeignKey(Aluno, verbose_name='Aluno', on_delete=models.SET_NULL, blank=True, null=True)
+    turma = models.ForeignKey(Turma, verbose_name='Turma', on_delete=models.SET_NULL, blank=True, null=True)
+    ciclo = models.ForeignKey(Ciclo, verbose_name='Ciclo', on_delete=models.SET_NULL, blank=True, null=True)
+    curso = models.ForeignKey(Curso, verbose_name='Curso', on_delete=models.SET_NULL, blank=True, null=True)
+    unidade = models.ForeignKey(Unidade, verbose_name='Unidade', on_delete=models.SET_NULL, blank=True, null=True)
 
     def soft_delete(self):
         self.ativo = False
@@ -75,9 +77,9 @@ class Evento(Base):
 
 class Autorizacao(Base):
     id = models.AutoField(primary_key=True, blank=False, null=False)
-    evento = models.OneToOneField(Evento, on_delete=models.PROTECT, blank=False, null=False)
-    responsavel = models.OneToOneField(Autorizador, on_delete=models.PROTECT, blank=False, null=False)
-    aluno = models.OneToOneField(Aluno, on_delete=models.PROTECT, blank=False, null=False)
+    evento = models.ForeignKey(Evento, verbose_name='Evento', on_delete=models.PROTECT, blank=False, null=False)
+    responsavel = models.ForeignKey(Autorizador, verbose_name='Responsável', on_delete=models.PROTECT, blank=False, null=False)
+    aluno = models.ForeignKey(Aluno, verbose_name='Aluno', on_delete=models.PROTECT, blank=False, null=False)
     autorizado = models.BooleanField('Autorizado', default=False)
 
     def soft_delete(self):

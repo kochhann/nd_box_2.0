@@ -1,8 +1,10 @@
+from django.contrib.auth.models import User
 from django.db import connection
 from collections import namedtuple
 from apps.autorizacoes.models import (
     Autorizador
 )
+from apps.agamotto.models import ScheduledTask
 import uuid
 
 
@@ -289,13 +291,21 @@ def get_gv_turma(gv_code, year):
 
 
 def user_creation_autorizador(id_number):
-    gv_user = get_gv_user_data(id_number, 2)
-    # user = User.objects.create(
-    #     username=usuario.email,
-    #     first_name=usuario.nome,
-    #     last_name=usuario.sobrenome)
-    # user.set_password(usuario.sobrenome)
-    # user.save()
-    # autorizador = Autorizador()
-    # autorizador.save()
+    task = ScheduledTask.objects.get(id=id_number)
+    gv_user = get_gv_user_data(task.gv_code, 2)
+    full = gv_user[0].NOME.title()
+    nome, *sobrenome = full.split()
+    sobrenome = " ".join(sobrenome)
+    email = task.extra_field
+    gv_code = gv_user[0].CODIGOPESSOA
+
+    user = User.objects.create(
+        username=email,
+        first_name=nome,
+        last_name=sobrenome)
+    user.set_password(user.sobrenome)
+    user.save()
+    autorizador = Autorizador(user=user,
+                              gv_code=gv_code)
+    autorizador.save()
     print(gv_user)

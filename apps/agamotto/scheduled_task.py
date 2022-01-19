@@ -10,14 +10,17 @@ from functions import (
     get_gv_unidade,
     get_gv_curso,
     get_gv_ciclo,
-    get_gv_turma
+    get_gv_turma,
+    user_creation_autorizador
 )
 
 
 def read_scheduled_tasks():
     st = ScheduledTask.objects.filter(status='scheduled', ativo='1')
     for item in st:
-        print(item)
+        if item.task == 'crateUser':
+            user_creation_autorizador(item.id)
+
 
 
 def update_unidade_gv():
