@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 
 class Autorizador(Base):
     id = models.AutoField(primary_key=True, blank=False, null=False)
-    user = models.OneToOneField(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, verbose_name='Usuário', on_delete=models.PROTECT, blank=False, null=False)
     gv_code = models.IntegerField('GV Code', blank=False, null=False)
 
     def soft_delete(self):

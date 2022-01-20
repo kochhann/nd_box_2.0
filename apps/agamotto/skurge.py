@@ -11,9 +11,9 @@ from .scheduled_task import (
 def start():
     scheduler = BackgroundScheduler(timezone='America/Sao_Paulo')
     scheduler.add_job(read_scheduled_tasks, 'interval', minutes=30)
-    scheduler.add_job(update_unidade_gv, 'interval', minutes=35)
-    scheduler.add_job(update_curso_gv, 'interval', minutes=40)
-    scheduler.add_job(update_ciclo_gv, 'interval', minutes=45)
-    scheduler.add_job(update_turma_gv, 'interval', minutes=50)
+    scheduler.add_job(update_unidade_gv, 'interval', minutes=40)
+    scheduler.add_job(update_curso_gv, 'interval', minutes=45)
+    scheduler.add_job(update_ciclo_gv, 'interval', minutes=50)
+    scheduler.add_job(update_turma_gv, 'interval', minutes=55)
 
     scheduler.start()

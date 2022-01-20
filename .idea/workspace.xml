@@ -9,28 +9,8 @@
       <change beforePath="$PROJECT_DIR$/apps/agamotto/skurge.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/agamotto/skurge.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/autorizacoes/migrations/0001_initial.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/autorizacoes/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/carreiras/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/carreiras/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/carreiras/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/core/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/migrations/0002_auto_20220119_1027.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/20.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/21.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/22.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/23.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/24.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/notre-dame-2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/notre-dame-santa-teresinha.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/notre-dame.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/preloader-dark.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/preloader-dark@2x.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/preloader.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/preloader@2x.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/unesco.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/v02.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/v03.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/reports/images/v04.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/functions.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +32,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="23pyA4Nl9AtxMhCZAS7T2diw7m4" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />

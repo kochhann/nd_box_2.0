@@ -17,10 +17,12 @@ from functions import (
 
 def read_scheduled_tasks():
     st = ScheduledTask.objects.filter(status='scheduled', ativo='1')
-    for item in st:
-        if item.task == 'crateUser':
-            user_creation_autorizador(item.id)
-
+    if len(st) > 0:
+        for item in st:
+            if item.task == 'createUser':
+                user_creation_autorizador(item.id)
+    else:
+        print('nothing do run')
 
 
 def update_unidade_gv():

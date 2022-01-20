@@ -65,7 +65,7 @@
                             {% else %}
                                 <li><a href="{% url 'login' %}" target="_self" class="si-evernote"><span class="ts-icon"><i class="icon-sign-in-alt"></i></span><span class="ts-text">Entrar</span></a></li>
                             {% endif %}
-                            {% if user.is_superuser %}
+                            {% if user.is_staff %}
                                 <li><a href="{% url 'admin:index' %}" target="_self" class="si-digg"><span class="ts-icon"><i class="icon-cog"></i></span><span class="ts-text">Gerenciamento</span></a></li>
                             {% endif %}
 						</ul><!-- #top-social end -->
