@@ -58,8 +58,12 @@ class Curso(Base):
         self.data_desativado = timezone.now()
         self.save()
 
+    @property
+    def get_unidade(self):
+        return self.unidade.nome
+
     def __str__(self):
-        return self.nome + ' - ' + self.unidade.nome
+        return self.nome
 
     class Meta:
         verbose_name = 'Curso'
@@ -80,6 +84,14 @@ class Ciclo(Base):
         self.ativo = False
         self.data_desativado = timezone.now()
         self.save()
+
+    @property
+    def get_curso(self):
+        return self.curso.nome
+
+    @property
+    def get_unidade(self):
+        return self.curso.get_unidade
 
     def __str__(self):
         return self.nome
@@ -105,6 +117,18 @@ class Turma(Base):
         self.ativo = False
         self.data_desativado = timezone.now()
         self.save()
+
+    @property
+    def get_ciclo(self):
+        return self.ciclo.nome
+
+    @property
+    def get_curso(self):
+        return self.ciclo.get_curso
+
+    @property
+    def get_unidade(self):
+        return self.ciclo.get_unidade
 
     def __str__(self):
         return self.nome

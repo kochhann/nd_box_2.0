@@ -70,7 +70,7 @@ def update_curso_gv():
     for item in gv_cursos:
         list_codes_gv.append(item.GV_CODE)
         for l_item in cursos:
-            if item.GV_CODE == l_item.gv_code and item.CODIGOUNIDADE == l_item.unidade.gv_code:
+            if item.GV_CODE == l_item.gv_code and item.CODIGOUNIDADE == l_item.get_unidade.gv_code:
                 unidade = Unidade.objects.get(gv_code=item.CODIGOUNIDADE)
                 nc = Curso(nome=item.CURSO,
                            gv_code=item.GV_CODE,

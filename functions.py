@@ -299,14 +299,19 @@ def user_creation_autorizador(id_number):
     email = task.extra_field
     gv_code = gv_user[0].CODIGOPESSOA
 
+    # crete user in auth system
     user = User.objects.create_user(email, email, sobrenome)
-
     user.first_name = nome
     user.last_name = sobrenome
     user.save()
+
+    # create Autorizador and references user
     autorizador = Autorizador(user=user,
                               gv_code=gv_code)
     autorizador.save()
+
+    # get relatives
+
     task.status = 'completed'
     task.soft_delete()
     print('Usuário criado')

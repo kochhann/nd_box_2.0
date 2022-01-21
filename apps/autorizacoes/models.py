@@ -20,8 +20,24 @@ class Autorizador(Base):
         self.data_desativado = timezone.now()
         self.save()
 
+    @property
+    def name(self):
+        return self.user.get_full_name()
+
+    @property
+    def email(self):
+        return self.user.email
+
+    @property
+    def last_login(self):
+        return self.user.last_login.date()
+
     def __str__(self):
         return self.user.first_name + ' ' + self.user.last_name
+
+    class Meta:
+        verbose_name = 'Autorizador'
+        verbose_name_plural = 'Autorizadores'
 
 
 class Aluno(Base):
@@ -40,6 +56,10 @@ class Aluno(Base):
     def __str__(self):
         return self.user.first_name + ' ' + self.user.last_name
 
+    class Meta:
+        verbose_name = 'Aluno'
+        verbose_name_plural = 'Alunos'
+
 
 class Enturmacao(Base):
     id = models.AutoField(primary_key=True, blank=False, null=False)
@@ -53,6 +73,10 @@ class Enturmacao(Base):
 
     def __str__(self):
         return self.aluno.nome + ' ' + self.turma.nome + ' - ' + self.turma.ano
+
+    class Meta:
+        verbose_name = 'Enturmação'
+        verbose_name_plural = 'Enturmações'
 
 
 class Evento(Base):
@@ -74,6 +98,10 @@ class Evento(Base):
     def __str__(self):
         return self.nome + ' - ' + self.data_evento
 
+    class Meta:
+        verbose_name = 'Evento'
+        verbose_name_plural = 'Eventos'
+
 
 class Autorizacao(Base):
     id = models.AutoField(primary_key=True, blank=False, null=False)
@@ -89,4 +117,8 @@ class Autorizacao(Base):
 
     def __str__(self):
         return self.evento.nome + ' - ' + self.aluno.nome
+
+    class Meta:
+        verbose_name = 'Autorização'
+        verbose_name_plural = 'Autorizações'
 

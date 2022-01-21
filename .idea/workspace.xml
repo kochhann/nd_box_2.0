@@ -3,14 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="5dfdc30b-e061-4833-9525-e061e7e9a049" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/agamotto/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/agamotto/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/agamotto/migrations/0001_initial.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/agamotto/scheduled_task.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/agamotto/scheduled_task.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/agamotto/skurge.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/agamotto/skurge.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/autorizacoes/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/carreiras/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/core/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/core/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/functions.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

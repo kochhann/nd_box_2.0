@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Autorizador
 
-# Register your models here.
+
+@admin.register(Autorizador)
+class AutorizadorAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'last_login', 'ativo']
