@@ -12,6 +12,7 @@
     <link href="{% static 'css/magnific-popup.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'css/custom.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'css/bs-filestyle.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/datepicker.css' %}" rel="stylesheet" type="text/css" />
 
     <style>
         .just-text {
@@ -87,7 +88,7 @@
                 <h1>{{ pt_h1 }}</h1>
                 <span>{{ pt_span }}</span>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="https://www.nd.org.br">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{ pt_breadcrumb2 }}</li>
                 </ol>
             </div>
@@ -117,6 +118,7 @@
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/bs-filestyle.js' %}"></script>
     <script src="{% static 'js/ajax.js' %}"></script>
+    <script src="{% static 'js/datepicker.js' %}"></script>
 
     <script>
 		jQuery(document).ready( function(){
@@ -213,6 +215,26 @@
             if (v.length == 11) i.value += "-";
         }
 	</script>
+    <script>
+        $(function() {
+			$('.component-datepicker.default').datepicker({
+				autoclose: true,
+				todayHighlight: true,
+				format: "dd/mm/yyyy",
+				daysOfWeekHighlighted: "0"
+			});
+		});
+    </script>
+<script>
+    function countChar(val) {
+      var len = val.value.length;
+      if (len >= 500) {
+        val.value = val.value.substring(0, 500);
+      } else {
+        $('#charNum').text(500 - len);
+      }
+    };
+</script>
 
 
 </body>

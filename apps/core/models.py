@@ -20,7 +20,7 @@ class Unidade(Base):
     is_school = models.BooleanField('É escola', default=False)
     cnae = models.CharField('CNAE', max_length=20, blank=True, null=True)
     cnpj = models.CharField('CNPJ', max_length=20, blank=True, null=True)
-    gv_code = models.IntegerField('GV Code', blank=False, null=False)
+    gv_code = models.IntegerField('GV Code', blank=False, null=False, unique=True)
 
     def update_from_origin(self, gv_origin):
         self.nome = gv_origin.nome.title()
@@ -46,7 +46,7 @@ class Unidade(Base):
 class Curso(Base):
     id = models.AutoField(primary_key=True, blank=False, null=False)
     nome = models.CharField('Nome', max_length=200, blank=False, null=False)
-    gv_code = models.IntegerField('GV Code', blank=False, null=False)
+    gv_code = models.IntegerField('GV Code', blank=False, null=False, unique=True)
     unidade = models.ForeignKey(Unidade, verbose_name='Unidade', on_delete=models.SET_NULL, blank=True, null=True)
 
     def update_from_origin(self, gv_origin):
@@ -60,7 +60,7 @@ class Curso(Base):
 
     @property
     def get_unidade(self):
-        return self.unidade.nome
+        return self.unidade
 
     def __str__(self):
         return self.nome
@@ -73,7 +73,7 @@ class Curso(Base):
 class Ciclo(Base):
     id = models.AutoField(primary_key=True, blank=False, null=False)
     nome = models.CharField('Nome', max_length=200, blank=False, null=False)
-    gv_code = models.IntegerField('GV Code', blank=False, null=False)
+    gv_code = models.IntegerField('GV Code', blank=False, null=False, unique=True)
     curso = models.ForeignKey(Curso, verbose_name='Curso', on_delete=models.SET_NULL, blank=True, null=True)
 
     def update_from_origin(self, gv_origin):
@@ -87,7 +87,7 @@ class Ciclo(Base):
 
     @property
     def get_curso(self):
-        return self.curso.nome
+        return self.curso
 
     @property
     def get_unidade(self):
@@ -106,7 +106,7 @@ class Turma(Base):
     nome = models.CharField('Nome', max_length=200, blank=False, null=False)
     ano = models.IntegerField('Ano', blank=False, null=False)
     ciclo = models.ForeignKey(Ciclo, verbose_name='Ciclo', on_delete=models.SET_NULL, blank=True, null=True)
-    gv_code = models.IntegerField('GV Code', blank=False, null=False)
+    gv_code = models.IntegerField('GV Code', blank=False, null=False, unique=True)
 
     def update_from_origin(self, gv_origin):
         self.nome = gv_origin.nome.title()
@@ -120,7 +120,7 @@ class Turma(Base):
 
     @property
     def get_ciclo(self):
-        return self.ciclo.nome
+        return self.ciclo
 
     @property
     def get_curso(self):

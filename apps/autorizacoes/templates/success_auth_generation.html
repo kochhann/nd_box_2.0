@@ -1,0 +1,9 @@
+{% extends 'login_index.html' %}
+{% block form %}
+<p>
+    Autorizações geradas com sucesso!
+</p>
+<div>
+    <a href="{% url 'autorizacao-list' %}" class="button button-border button-rounded button-blue m-0">Ver autorizações</a>
+</div>
+{% endblock %}

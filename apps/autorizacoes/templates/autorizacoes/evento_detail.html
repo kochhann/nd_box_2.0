@@ -1,0 +1,51 @@
+{% extends 'base.html'%}
+{% block content %}
+<section id="content">
+    <div class="content-wrap">
+        <div class="container clearfix">
+            <div class="row">
+                <div class="postcontent col-lg-9">
+                    <div class="col-lg-12 pl-lg-5 just-text">
+                        <div class="entry event col-12">
+                            <div class="grid-inner row align-items-center g-0 p-4">
+                                <div class="ps-md-4">
+                                    <div class="entry-title title-xs">
+                                        <h2><a href="{% url 'evento-update' object.pk %}">{{ object.nome }}</a></h2>
+                                    </div>
+                                    <div class="entry-meta">
+                                        <ul>
+                                            <li><i class="icon-time"></i> {{ object.data_evento }}</li>
+                                            <li><i class="icon-map-marker2"></i> {{ object.scope }}</li>
+                                        </ul>
+                                    </div>
+                                    <p>
+                                      {{ object.descricao }}
+                                    </p>
+
+                                </div>
+                                {% if not autorizacoes %}
+                                <div class="col-12">
+                                    <a href="{% url 'autorizacao-gerar' object.pk 'imagem' %}" class="button button-border button-rounded button" disabled="disabled" >Gerar Autorizações</a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="w-100 line d-block d-md-none"></div>
+                <div class="col-md-3">
+                    <div class="list-group">
+                        <a href="{% url 'index' %}" class="list-group-item list-group-item-action d-flex justify-content-between"><div>Início</div><i class="icon-home"></i></a>
+                        <a href="{% url 'evento-list' %}" class="list-group-item list-group-item-action d-flex justify-content-between"><div>Eventos</div><i class="icon-calendar2"></i></a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between"><div>Autorizações</div><i class="icon-line-check-circle"></i></a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between"><div>Mensagens</div><i class="icon-envelope1"></i></a>
+                        <a href="{% url 'logout' %}" class="list-group-item list-group-item-action d-flex justify-content-between"><div>Logout</div><i class="icon-sign-out-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

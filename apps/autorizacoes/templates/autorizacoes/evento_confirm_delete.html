@@ -1,0 +1,6 @@
+<form method="POST">
+    {% csrf_token %}
+    <h1>Tem certeza?</h1>
+    {{ form }}
+    <button type="submit">Confirmar</button>
+</form>

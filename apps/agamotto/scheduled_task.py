@@ -63,14 +63,12 @@ def update_unidade_gv():
 def update_curso_gv():
     cursos = Curso.objects.all()
     gv_cursos = get_gv_curso(0, datetime.now().year)
-    print('Cursos: ' + str(len(cursos)))
-    print('Cursos GV: ' + str(len(gv_cursos)))
     list_codes_gv = []
     list_codes_local = []
     for item in gv_cursos:
         list_codes_gv.append(item.GV_CODE)
         for l_item in cursos:
-            if item.GV_CODE == l_item.gv_code and item.CODIGOUNIDADE == l_item.get_unidade.gv_code:
+            if item.GV_CODE == l_item.gv_code and item.CODIGOUNIDADE == l_item.unidade.gv_code:
                 unidade = Unidade.objects.get(gv_code=item.CODIGOUNIDADE)
                 nc = Curso(nome=item.CURSO,
                            gv_code=item.GV_CODE,
@@ -88,14 +86,11 @@ def update_curso_gv():
                                gv_code=item.GV_CODE,
                                unidade=unidade)
                     nc.save()
-                    print('Curso Cadastrado')
 
 
 def update_ciclo_gv():
     ciclos = Ciclo.objects.all()
     gv_ciclos = get_gv_ciclo(0, datetime.now().year)
-    print('Cursos: ' + str(len(ciclos)))
-    print('Cursos GV: ' + str(len(gv_ciclos)))
     list_codes_gv = []
     list_codes_local = []
     for item in gv_ciclos:
@@ -119,14 +114,11 @@ def update_ciclo_gv():
                                gv_code=item.GV_CODE,
                                curso=curso)
                     nc.save()
-                    print('Ciclo Cadastrado')
 
 
 def update_turma_gv():
     turmas = Turma.objects.all()
     gv_turmas = get_gv_turma(0, datetime.now().year)
-    print('Cursos: ' + str(len(turmas)))
-    print('Cursos GV: ' + str(len(gv_turmas)))
     list_codes_gv = []
     list_codes_local = []
     for item in gv_turmas:
@@ -152,4 +144,3 @@ def update_turma_gv():
                                gv_code=item.GV_CODE,
                                ciclo=ciclo)
                     nt.save()
-                    print('Turma cadastrada')

@@ -1,4 +1,4 @@
-(function($) {
+function($) {
   
   "use strict";  
 
@@ -102,4 +102,63 @@
 
   });      
 
-}(jQuery));
+}
+
+jQuery( "#tabs-profile" ).on( "tabsactivate", function( event, ui ) {
+    jQuery( '.flexslider .slide' ).resize();
+}
+
+function() {
+    $('.component-datepicker.default').datepicker({
+        autoclose: true,
+        startDate: "today",
+    });
+
+    $('.component-datepicker.today').datepicker({
+        autoclose: true,
+        startDate: "today",
+        todayHighlight: true
+    });
+
+    $('.component-datepicker.past-enabled').datepicker({
+        autoclose: true,
+    });
+
+    $('.component-datepicker.format').datepicker({
+        autoclose: true,
+        format: "dd-mm-yyyy",
+    });
+
+    $('.component-datepicker.autoclose').datepicker();
+
+    $('.component-datepicker.disabled-week').datepicker({
+        autoclose: true,
+        daysOfWeekDisabled: "0"
+    });
+
+    $('.component-datepicker.highlighted-week').datepicker({
+        autoclose: true,
+        daysOfWeekHighlighted: "0"
+    });
+
+    $('.component-datepicker.mnth').datepicker({
+        autoclose: true,
+        minViewMode: 1,
+        format: "mm/yy"
+    });
+
+    $('.component-datepicker.multidate').datepicker({
+        multidate: true,
+        multidateSeparator: " , "
+    });
+
+    $('.component-datepicker.input-daterange').datepicker({
+        autoclose: true
+    });
+
+    $('.component-datepicker.inline-calendar').datepicker();
+
+    $('.datetimepicker').datetimepicker({
+        showClose: true
+    });
+}

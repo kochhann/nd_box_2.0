@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from operator import attrgetter
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -10,6 +11,12 @@ from django.contrib.auth.views import LoginView
 from .forms import RegistrationForm
 from datetime import datetime
 from apps.agamotto.models import ScheduledTask
+from apps.autorizacoes.models import (
+    Autorizador,
+    Coordenador,
+    EventoUnidade,
+    Evento
+)
 from functions import (
     get_quotes,
     get_gv_user_data,
@@ -61,6 +68,7 @@ class RegistrationFormView(FormView):
     def form_valid(self, form, *args, **kwargs):
         gv_user_data = get_gv_user_data(form.cleaned_data.get('register_id'), 1)
         email = form.cleaned_data.get('register_email')
+
         if len(gv_user_data) == 0:
             form.send_not_user()
         else:
@@ -69,11 +77,20 @@ class RegistrationFormView(FormView):
             if len(user_relatives) == 0:
                 form.send_not_relative()
             else:
-                check = ScheduledTask.objects.filter(gv_code=gv_id, task='createUser', ativo=1)
+                check = ScheduledTask.objects.filter(gv_code=gv_id, task='createUser')
                 if len(check) > 0:
-                    messages.error(self.request, 'Sua solicitação já foi recebida anteriormente. Verifique suas'
-                                                   ' mensagens ou entre em contato com a sua Unidade.')
-                    return super(RegistrationFormView, self).form_valid(form, *args, **kwargs)
+                    for i in check:
+                        if i.status == 'scheduled':
+                            msg = 'Sua solicitação (id:' + str(i.id) + ') já foi recebida anteriormente. Verifique ' \
+                                  'suas mensagens ou entre em contato com a sua Unidade.'
+                            messages.error(self.request, msg)
+                            return super(RegistrationFormView, self).form_valid(form, *args, **kwargs)
+                        if i.status == 'completed':
+                            msg = 'Sua solicitação (id: ' + str(i.id) + ') já foi atendida. Se você não lembra a sua ' \
+                                                                   ' senha, volte para o login e selecione "Esqueceu ' \
+                                                                   ' a senha?"'
+                            messages.error(self.request, msg)
+                            return super(RegistrationFormView, self).form_valid(form, *args, **kwargs)
                 else:
                     st = ScheduledTask(task='createUser',
                                        status='scheduled',
@@ -101,13 +118,53 @@ class IndexView(TemplateView):
         quotes = get_quotes(day, month)
         quote = quotes[0].PENSAMENTO
         author = quotes[0].AUTORIA
-        context['doc_title'] = 'Switch'
-        context['top_app_name'] = 'Switch'
-        context['pt_h1'] = 'ACESSO AOS SERVIÇOS'
-        context['pt_span'] = ''
-        context['pt_breadcrumb2'] = 'Acesso a portais'
-        context['quote'] = quote
-        context['author'] = author
+        groups = self.request.user.groups.all()
+        autorizador = False
+        coordenador = False
+        for i in groups:
+            if i.name == 'Autorizadores':
+                autorizador = True
+            if i.name == 'Coordenação':
+                coordenador = True
+        if self.request.user.is_staff or self.request.user.is_anonymous:
+            context['doc_title'] = 'Switch'
+            context['top_app_name'] = 'Switch'
+            context['pt_h1'] = 'ACESSO AOS SERVIÇOS'
+            context['pt_span'] = ''
+            context['pt_breadcrumb2'] = 'Acesso a portais'
+            context['quote'] = quote
+            context['author'] = author
+        if autorizador:
+            aut = Autorizador.objects.get(user=self.request.user)
+            context['doc_title'] = 'Área do Usuário'
+            context['top_app_name'] = 'Autorizações'
+            context['pt_h1'] = 'Área do usuário'
+            context['pt_span'] = 'Detalhes da sua conta'
+            context['pt_breadcrumb2'] = 'Área do usuário'
+            context['quote'] = quote
+            context['author'] = author
+            context['autorizador'] = aut
+            context['dependentes'] = aut.aluno_set.all()
+            context['autorizacoes'] = aut.autorizacao_set.all()
+            context['is_autorizador'] = autorizador
+        if coordenador:
+            coord = Coordenador.objects.get(user=self.request.user)
+            ev_un = EventoUnidade.objects.filter(ativo=True, unidade=coord.unidade)
+            eventos = sorted(ev_un, key=attrgetter('evento.data_evento'))[:2]
+            # eventos_ = []
+            # for e in ev_un:
+            #     eventos_.append(Evento.objects.get(pk=e.evento.pk))
+            # eventos = sorted(eventos_, key=attrgetter('data_evento'))[:2]
+            context['doc_title'] = 'Gestão de eventos'
+            context['top_app_name'] = 'Autorizações'
+            context['pt_h1'] = 'Gestão de eventos'
+            context['pt_span'] = coord.name + ' - ' + coord.unidade.nome
+            context['pt_breadcrumb2'] = 'Autorizações'
+            context['quote'] = quote
+            context['author'] = author
+            context['coordenador'] = coord
+            context['eventos'] = eventos
+            context['is_coordenador'] = coordenador
         return context
 
 

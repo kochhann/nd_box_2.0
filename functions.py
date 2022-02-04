@@ -1,11 +1,24 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import (
+    User,
+    Group
+)
 from django.db import connection
 from collections import namedtuple
+
+from django.urls import reverse
+
 from apps.autorizacoes.models import (
-    Autorizador
+    Autorizador,
+    Aluno,
+    Enturmacao
+)
+from apps.core.models import (
+    Unidade,
+    Turma
 )
 from apps.agamotto.models import ScheduledTask
 import uuid
+from datetime import datetime
 
 
 def get_quotes(day, month):
@@ -290,6 +303,75 @@ def get_gv_turma(gv_code, year):
     return qs
 
 
+def get_relatives(gv_code, year):
+    cursor = connection.cursor()
+    cursor.execute("SELECT P_ALUNO.NOME ALUNO,"
+                   "       P_ALUNO.CODIGOPESSOA GV_CODE,"
+                   "	   P_UNI.CODIGOPESSOA UNIDADE,"
+                   "	   ALU.MATRICULA,"
+                   "	   P.CODIGOPESSOA RESPONSAVEL,"
+                   "       PA.DESCRICAO,"
+                   "       PA.CODIGOPAPEL"
+                   " FROM GVContabilidade.dbo.PAD_PESSOA P"
+                   "    INNER JOIN GVContabilidade.dbo.PAD_PESSOAPAPEL PP"
+                   "        ON P.CODIGOPESSOA = PP.CODIGOPESSOA"
+                   "    INNER JOIN GVContabilidade.dbo.PAD_PAPEL PA"
+                   "        ON PP.CODIGOPAPEL = PA.CODIGOPAPEL"
+                   "    INNER JOIN GVContabilidade.dbo.PAD_PESSOA P_ALUNO"
+                   "        ON PP.CODIGOPESSOAVINCULO = P_ALUNO.CODIGOPESSOA"
+                   "    INNER JOIN GVContabilidade.dbo.ACD_ALUNO ALU"
+                   "        ON P_ALUNO.CODIGOPESSOA = ALU.CODIGOPESSOA"
+                   "    INNER JOIN GVContabilidade.dbo.ACD_ENTURMACAO ENT"
+                   "        ON ALU.CODIGOALUNO = ENT.CODIGOALUNO"
+                   "    INNER JOIN GVContabilidade.dbo.ACD_TURMA TUR"
+                   "        ON ENT.CODIGOTURMA = TUR.CODIGOTURMA"
+                   "	INNER JOIN GVContabilidade.dbo.PAD_UNIDADE UNI"
+                   "		ON TUR.CODIGOUNIDADE = UNI.CODIGOUNIDADE"
+                   "	INNER JOIN GVContabilidade.dbo.PAD_PESSOA P_UNI"
+                   "		ON UNI.CODIGOPESSOA = P_UNI.CODIGOPESSOA"
+                   " WHERE P.CODIGOPESSOA = '%s'"
+                   "      AND PA.CODIGOPAPEL = 30"
+                   "      AND TUR.ANOINICIO = '%s'" % (gv_code, year))
+    qs = namedtuplefetchall(cursor)
+    qs = list(dict.fromkeys(qs))
+    return qs
+
+
+def create_aluno(rel):
+    responsavel = Autorizador.objects.get(gv_code=rel.RESPONSAVEL)
+    unidade = Unidade.objects.get(gv_code=rel.UNIDADE)
+    aluno = Aluno(nome=rel.ALUNO.title(),
+                  matricula=int(rel.MATRICULA),
+                  gv_code=rel.GV_CODE,
+                  unidade=unidade,
+                  responsavel=responsavel)
+    aluno.save()
+    return aluno
+
+
+def get_turma_aluno(matricula, year):
+    cursor = connection.cursor()
+    cursor.execute("SELECT TUR.CODIGOTURMA"
+                   " FROM GVContabilidade.dbo.ACD_ALUNO ALU"
+                   "    INNER JOIN GVContabilidade.dbo.ACD_ENTURMACAO ENT"
+                   "        ON ALU.CODIGOALUNO = ENT.CODIGOALUNO"
+                   "    INNER JOIN GVContabilidade.dbo.ACD_TURMA TUR"
+                   "        ON ENT.CODIGOTURMA = TUR.CODIGOTURMA"
+                   " WHERE ALU.MATRICULA = '%s'"
+                   "      AND TUR.ANOINICIO = '%s'" % (matricula, year))
+    qs = namedtuplefetchall(cursor)
+    codigo = qs[0].CODIGOTURMA
+    return codigo
+
+
+def create_enturmacao(aluno, turma):
+    enturmacao = Enturmacao(unidade=aluno.unidade,
+                            aluno=aluno,
+                            turma=turma)
+    enturmacao.save()
+    return enturmacao.id
+
+
 def user_creation_autorizador(id_number):
     task = ScheduledTask.objects.get(id=id_number)
     gv_user = get_gv_user_data(task.gv_code, 2)
@@ -299,11 +381,15 @@ def user_creation_autorizador(id_number):
     email = task.extra_field
     gv_code = gv_user[0].CODIGOPESSOA
 
-    # crete user in auth system
+    # create user in auth system
     user = User.objects.create_user(email, email, sobrenome)
     user.first_name = nome
     user.last_name = sobrenome
     user.save()
+
+    # add in Autorizadores group
+    g = Group.objects.get(name='Autorizadores')
+    g.user_set.add(user)
 
     # create Autorizador and references user
     autorizador = Autorizador(user=user,
@@ -311,7 +397,16 @@ def user_creation_autorizador(id_number):
     autorizador.save()
 
     # get relatives
+    rel = get_relatives(gv_code, datetime.now().year)
+    alunos = []
+    for aluno in rel:
+        new_aluno = create_aluno(aluno)
+        alunos.append(new_aluno)
+
+    # make grouping
+    for item in alunos:
+        turma = Turma.objects.get(gv_code=get_turma_aluno(item.matricula, datetime.now().year))
+        id_ent = create_enturmacao(item, turma)
 
     task.status = 'completed'
     task.soft_delete()
-    print('Usuário criado')
