@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-
+from datetime import date
 from apps.core.models import (
     Base,
     Turma,
@@ -88,6 +88,22 @@ class Aluno(Base):
         self.data_desativado = timezone.now()
         self.save()
 
+    def update_enturmacao(self, gv_origin):
+        same = gv_origin == self.turma_atual.gv_code
+        if same:
+            print('mesma turma')
+        else:
+            print('outra turma')
+
+    @property
+    def turma_atual(self):
+        ent = self.enturmacao_set.all()
+        tur = 0
+        for t in ent:
+            if t.turma.ano == timezone.now().year:
+                tur = t.turma
+        return tur
+
     def __str__(self):
         return self.nome
 
@@ -118,7 +134,7 @@ class Enturmacao(Base):
 class Evento(Base):
     id = models.AutoField(primary_key=True, blank=False, null=False)
     nome = models.CharField("Nome", max_length=200, blank=False, null=False)
-    descricao = models.CharField("Descricao", max_length=500, blank=False, null=False)
+    descricao = models.CharField("Descricao", max_length=1000, blank=False, null=False)
     data_evento = models.DateField('Data', blank=False, null=False)
     aluno = models.ForeignKey(Aluno, verbose_name='Aluno', on_delete=models.SET_NULL, blank=True, null=True)
     turma = models.ForeignKey(Turma, verbose_name='Turma', on_delete=models.SET_NULL, blank=True, null=True)
@@ -127,7 +143,8 @@ class Evento(Base):
     unidade = models.ForeignKey(Unidade, verbose_name='Unidade', on_delete=models.SET_NULL, blank=True, null=True)
 
     def gera_autorizacoes(self, tipo):
-        alunos = [self.aluno]
+        alunos = []
+        model = AutorizacoesModel.objects.get(tipo=tipo)
         if self.aluno is not None:
             alunos.append(self.aluno)
         if self.turma is not None:
@@ -154,10 +171,10 @@ class Evento(Base):
                             alunos.append(ent.aluno)
         for aluno in alunos:
             aut = Autorizacao(evento=self,
-                              responsavel=aluno.resposavel,
-                              tipo=tipo,
+                              responsavel=aluno.responsavel,
+                              tipo=model,
                               aluno=aluno,
-                              termos=tipo.texto)
+                              termos=model.texto)
             aut.save()
 
     def get_absolute_url(self):
@@ -183,6 +200,10 @@ class Evento(Base):
             return self.curso.nome
         if self.unidade is not None:
             return self.unidade.nome
+
+    @property
+    def is_past_due(self):
+        return date.today() > self.data_evento
 
     class Meta:
         verbose_name = 'Evento'
@@ -243,6 +264,14 @@ class Autorizacao(Base):
 
     def __str__(self):
         return self.evento.nome + ' - ' + self.aluno.nome
+
+    def autorizar(self):
+        self.autorizado = 'Autorizado'
+        self.save()
+
+    def recusar(self):
+        self.autorizado = 'Negado'
+        self.save()
 
     class Meta:
         verbose_name = 'Autorização'

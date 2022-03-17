@@ -103,19 +103,56 @@
         {% block content %}    {% endblock %}
 
 
+        <!-- Footer
+		============================================= -->
+		<footer id="footer" class="bg-white border-0">
+
+			<div id="copyrights" class="bg-color dark py-5">
+				<div class="container">
+
+                    <div class="row justify-content-between col-mb-30">
+						<div class="col-12 col-lg-auto text-center text-lg-start">
+							Copyrights &copy; 2021 Associação Notre Dame<br>
+							<div class="copyright-links"><a href="{% url 'privacidade' %}" class="text-white-50" target="_blank">Política de Privacidade</a></div>
+						</div>
+
+						<div class="col-12 col-lg-auto text-center text-lg-end">
+
+							<a href="https://www.nd.org.br" target="_blank" class="social-icon inline-block si-small si-borderless mb-0 si-podcast">
+								<i class="icon-school"></i>
+								<i class="icon-school"></i>
+							</a>
+
+                            <a href="https://www.facebook.com/redenotredame" target="_blank" class="social-icon inline-block si-small si-borderless mb-0 si-facebook">
+								<i class="icon-facebook"></i>
+								<i class="icon-facebook"></i>
+							</a>
+
+                            <a href="https://www.instagram.com/redenotredame" target="_blank" class="social-icon inline-block si-small si-borderless mb-0 si-instagram">
+								<i class="icon-instagram"></i>
+								<i class="icon-instagram"></i>
+							</a>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</footer><!-- #footer end -->
+
     </div><!-- #wrapper end -->
 
     <!-- Go To Top
 	============================================= -->
 	<div id="gotoTop" class="icon-angle-up"></div>
 
-
     <script src="{% static 'js/jquery.js' %}"></script>
     <script src="{% static 'js/plugins.js' %}"></script>
     <script src="{% static 'js/functions.js' %}"></script>
     <script src="{% static 'js/wow.js' %}"></script>
-    <script src="{% static 'js/jquery.nav.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/jquery.nav.js' %}"></script>
     <script src="{% static 'js/bs-filestyle.js' %}"></script>
     <script src="{% static 'js/ajax.js' %}"></script>
     <script src="{% static 'js/datepicker.js' %}"></script>
@@ -133,20 +170,6 @@
 			});
 		})
 	</script>
-    <script>
-        document.getElementById("id_escolaridade").onchange =
-        function() {
-            var slctd = document.getElementById("id_escolaridade").value;
-            if(slctd > 4){
-                document.getElementById("jobs-course").disabled = false;
-            }
-            else{
-                ipt = document.getElementById("jobs-course");
-                ipt.value = '';
-                ipt.disabled = true;
-            }
-        }
-    </script>
     <script>
 		jQuery(document).ready(function($){
 			var $faqItems = $('#faqs .faq');
@@ -225,16 +248,119 @@
 			});
 		});
     </script>
-<script>
-    function countChar(val) {
-      var len = val.value.length;
-      if (len >= 500) {
-        val.value = val.value.substring(0, 500);
-      } else {
-        $('#charNum').text(500 - len);
-      }
-    };
-</script>
+    <script>
+        function countChar(val) {
+          var len = val.value.length;
+          if (len >= 1000) {
+            val.value = val.value.substring(0, 1000);
+          } else {
+            $('#charNum').text(1000 - len);
+          }
+        };
+    </script>
+
+    <script>
+        $(window).on('load', function() {
+
+          /*Page Loader active
+          ========================================================*/
+          $('#preloader').fadeOut();
+
+          // Sticky Nav
+            $(window).on('scroll', function() {
+                if ($(window).scrollTop() > 50) {
+                    $('.scrolling-navbar').addClass('top-nav-collapse');
+                } else {
+                    $('.scrolling-navbar').removeClass('top-nav-collapse');
+                }
+            });
+
+            // one page navigation
+            $('.navbar-nav').onePageNav({
+              currentClass: 'active'
+            });
+
+            /* Auto Close Responsive Navbar on Click
+            ========================================================*/
+            function close_toggle() {
+                if ($(window).width() <= 768) {
+                    $('.navbar-collapse a').on('click', function () {
+                        $('.navbar-collapse').collapse('hide');
+                    });
+                }
+                else {
+                    $('.navbar .navbar-inverse a').off('click');
+                }
+            }
+            close_toggle();
+            $(window).resize(close_toggle);
+
+            /* WOW Scroll Spy
+            ========================================================*/
+             var wow = new WOW({
+              //disabled for mobile
+                mobile: false
+            });
+
+            wow.init();
+
+             /* Testimonials Carousel
+            ========================================================*/
+            var owl = $("#testimonials");
+              owl.owlCarousel({
+                loop: true,
+                nav: false,
+                dots: true,
+                center: true,
+                margin: 15,
+                slideSpeed: 1000,
+                stopOnHover: true,
+                autoPlay: true,
+                responsiveClass: true,
+                responsiveRefreshRate: true,
+                responsive : {
+                    0 : {
+                        items: 1
+                    },
+                    768 : {
+                        items: 2
+                    },
+                    960 : {
+                        items: 3
+                    },
+                    1200 : {
+                        items: 3
+                    },
+                    1920 : {
+                        items: 3
+                    }
+                }
+              });
+
+
+            /* Back Top Link active
+            ========================================================*/
+              var offset = 200;
+              var duration = 500;
+              $(window).scroll(function() {
+                if ($(this).scrollTop() > offset) {
+                  $('.back-to-top').fadeIn(400);
+                } else {
+                  $('.back-to-top').fadeOut(400);
+                }
+              });
+
+              $('.back-to-top').on('click',function(event) {
+                event.preventDefault();
+                $('html, body').animate({
+                  scrollTop: 0
+                }, 600);
+                return false;
+              });
+
+          });
+
+    </script>
 
 
 </body>

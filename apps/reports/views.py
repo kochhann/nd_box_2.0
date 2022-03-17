@@ -1,4 +1,3 @@
-import os
 from django.views.generic import (
     TemplateView,
     View
@@ -6,7 +5,6 @@ from django.views.generic import (
 from decimal import Decimal
 from django.db import connection
 from django.http import HttpResponse
-from django.conf import settings
 from datetime import datetime
 from io import BytesIO
 from reportlab.lib.colors import black

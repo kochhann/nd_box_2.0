@@ -15,7 +15,6 @@ from apps.autorizacoes.models import (
     Autorizador,
     Coordenador,
     EventoUnidade,
-    Evento
 )
 from functions import (
     get_quotes,
@@ -87,8 +86,7 @@ class RegistrationFormView(FormView):
                             return super(RegistrationFormView, self).form_valid(form, *args, **kwargs)
                         if i.status == 'completed':
                             msg = 'Sua solicitação (id: ' + str(i.id) + ') já foi atendida. Se você não lembra a sua ' \
-                                                                   ' senha, volte para o login e selecione "Esqueceu ' \
-                                                                   ' a senha?"'
+                                  ' senha, volte para o login e selecione "Esqueceu a senha?"'
                             messages.error(self.request, msg)
                             return super(RegistrationFormView, self).form_valid(form, *args, **kwargs)
                 else:
@@ -146,15 +144,14 @@ class IndexView(TemplateView):
             context['autorizador'] = aut
             context['dependentes'] = aut.aluno_set.all()
             context['autorizacoes'] = aut.autorizacao_set.all()
-            context['is_autorizador'] = autorizador
         if coordenador:
             coord = Coordenador.objects.get(user=self.request.user)
             ev_un = EventoUnidade.objects.filter(ativo=True, unidade=coord.unidade)
-            eventos = sorted(ev_un, key=attrgetter('evento.data_evento'))[:2]
-            # eventos_ = []
-            # for e in ev_un:
-            #     eventos_.append(Evento.objects.get(pk=e.evento.pk))
-            # eventos = sorted(eventos_, key=attrgetter('data_evento'))[:2]
+            ev_un_x = []
+            for e in ev_un:
+                if not e.evento.is_past_due:
+                    ev_un_x.append(e)
+            eventos = sorted(ev_un_x, key=attrgetter('evento.data_evento'))[:2]
             context['doc_title'] = 'Gestão de eventos'
             context['top_app_name'] = 'Autorizações'
             context['pt_h1'] = 'Gestão de eventos'
@@ -164,7 +161,8 @@ class IndexView(TemplateView):
             context['author'] = author
             context['coordenador'] = coord
             context['eventos'] = eventos
-            context['is_coordenador'] = coordenador
+        context['is_autorizador'] = autorizador
+        context['is_coordenador'] = coordenador
         return context
 
 

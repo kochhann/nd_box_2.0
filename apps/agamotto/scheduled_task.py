@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.utils import timezone
 from .models import ScheduledTask
 from apps.core.models import (
     Unidade,
@@ -6,12 +7,15 @@ from apps.core.models import (
     Ciclo,
     Turma
 )
+from apps.autorizacoes.models import Aluno
 from functions import (
     get_gv_unidade,
     get_gv_curso,
     get_gv_ciclo,
     get_gv_turma,
-    user_creation_autorizador
+    user_creation_autorizador,
+    generate_authorization,
+    get_turma_aluno
 )
 
 
@@ -21,6 +25,11 @@ def read_scheduled_tasks():
         for item in st:
             if item.task == 'createUser':
                 user_creation_autorizador(item.id)
+            if item.task == 'generateAuth':
+                print('criar autorizações')
+                generate_authorization(item.gv_code, item.extra_field)
+                item.status = 'completed'
+                item.soft_delete()
     else:
         print('nothing do run')
 
@@ -144,3 +153,10 @@ def update_turma_gv():
                                gv_code=item.GV_CODE,
                                ciclo=ciclo)
                     nt.save()
+
+
+def update_enturmacao():
+    alunos = Aluno.objects.filter(ativo=True)
+    for a in alunos:
+        gv_turma = get_turma_aluno(a.matricula, timezone.now().year)
+        a.update_enturmacao(gv_turma)

@@ -2,361 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5dfdc30b-e061-4833-9525-e061e7e9a049" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Apoio_TI.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/agamotto/scheduled_task.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/agamotto/scheduled_task.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/agamotto/skurge.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/agamotto/skurge.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/autorizacoes/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/autorizacoes/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/autorizacao_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/autorizacao_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/evento_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/evento_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/evento_edit_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/evento_edit_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/evento_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/evento_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizador_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizador_dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/coordenador_evento_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/coordenador_evento_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/coordenador_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/coordenador_index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/evento_deletion_modal.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/evento_deletion_modal.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/success_auth_generation.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/success_auth_generation.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/autorizacoes/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/autorizacoes/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/carreiras/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/carreiras/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/animate.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/bootstrap-rtl.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/bootstrap.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/bs-filestyle.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/calendar.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/colors.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/colors.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/bs-datatable.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/bs-filestyle.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/bs-rating.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/bs-select.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/bs-switches-vars.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/bs-switches.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/dark-components.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/datepicker.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/daterangepicker.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/ion.rangeslider-vars.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/ion.rangeslider.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/pricing-table.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/radio-checkbox-vars.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/radio-checkbox.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/rangeslider/sprite-skin-nice.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/select-boxes.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/components/timepicker.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/custom.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/dark.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/font-icons.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/LineIcons.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/LineIcons.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/LineIcons.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/LineIcons.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/Simple-Line-Icons.dev.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/Simple-Line-Icons.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/Simple-Line-Icons.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/Simple-Line-Icons.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/Simple-Line-Icons.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/font-icons.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/font-icons.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/font-icons.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/font-icons.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/line-icons.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/lined-icons.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/lined-icons.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/lined-icons.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/fonts/lined-icons.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/blog.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/bootstrap.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/content.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/events.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/extras.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/footer.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/forms.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/header.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/layouts.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/page-loaders.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/pagetitle.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/paginations.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/portfolio.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shop.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/alerts.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/buttons.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/carousel.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/clients.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/countdown.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/counter-skills.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/dividers.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/faqs.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/feature-box.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/flipcard.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/headings.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/misc.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/pricing.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/process-steps.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/promo.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/social-icons.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/styled-icons.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/tabs.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/team.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/testimonials.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/toast.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/shortcodes/toggles-accordions.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/sliders.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/topbar.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/typography.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/utilities.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/imports/widgets.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/intro-fonts.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/magnific-popup.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/main.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/style-import.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/style-rtl.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/style.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_css/swiper.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/bs-filestyle.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/chart-utils.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/chart.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/bs-datatable.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/bs-filestyle.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/bs-select.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/bs-switches.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/datepicker.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/daterangepicker.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/event.move.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/image-changer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/moment.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/rangeslider.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/select-boxes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/selectsplitter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/star-rating.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/timepicker.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/icons/default/icons.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/jquery.tinymce.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/langs/readme.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/license.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/advlist/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/anchor/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/autolink/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/autoresize/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/autosave/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/bbcode/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/charmap/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/code/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/codesample/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/colorpicker/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/contextmenu/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/directionality/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/emoticons/js/emojiimages.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/emoticons/js/emojiimages.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/emoticons/js/emojis.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/emoticons/js/emojis.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/emoticons/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/fullpage/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/fullscreen/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/help/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/hr/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/image/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/imagetools/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/importcss/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/insertdatetime/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/legacyoutput/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/link/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/lists/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/nonbreaking/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/noneditable/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/pagebreak/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/paste/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/preview/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/print/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/quickbars/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/save/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/searchreplace/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/spellchecker/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/tabfocus/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/table/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/template/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/textcolor/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/textpattern/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/toc/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/visualblocks/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/visualchars/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/plugins/wordcount/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/content/dark/content.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/content/default/content.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/content/document/content.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/content/writer/content.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/ui/oxide-dark/content.inline.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/ui/oxide-dark/content.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/ui/oxide-dark/content.mobile.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/ui/oxide-dark/fonts/tinymce-mobile.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/ui/oxide-dark/skin.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/ui/oxide-dark/skin.mobile.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/ui/oxide-dark/skin.shadowdom.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/ui/oxide/content.inline.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/ui/oxide/content.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/ui/oxide/content.mobile.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/ui/oxide/fonts/tinymce-mobile.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/ui/oxide/skin.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/ui/oxide/skin.mobile.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/skins/ui/oxide/skin.shadowdom.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/themes/mobile/theme.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/themes/silver/theme.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/tinymce.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/tinymce/tinymce.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/components/typehead.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/datepicker.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/events-data.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/functions.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/holder.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/intersection-observer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/jquery.calendario.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/jquery.hotspot.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/jquery.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/jquery.mousewheel.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/jquery.nav.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/main.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/particles/particles-bubbles.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/particles/particles-line.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/particles/particles-nasa.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/particles/particles-poly.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/particles/particles-snow.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/particles/particles.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/particles/particlesjs-config.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.accordions.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.ajaxform.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.ajaxportfolio.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.animations.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.bootstrap.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.carousel.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.cookie.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.countdown.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.counter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.dataclasses.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.dataheights.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.dribbble.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.easing.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.fitvids.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.flexslider.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.flickrfeed.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.form.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.gmap.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.gridfilter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.hashchange.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.hoveranimation.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.html5video.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.imagesloaded.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.infinitescroll.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.instagram-deprecated.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.instagram.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.isotope.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.jpaginate.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.lazyload.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.lightbox.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.linkscroll.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.masonrythumbs.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.navtree.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.notify.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.onepage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.pagetransition.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.parallax.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.piechart.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.pricingswitcher.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.progress.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.quantity.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.readmore.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.respond.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.shapedivider.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.stickysidebar.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.subscribe.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.superfish.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.swiper.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.tabs.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.textrotator.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.toggles.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.twitter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/plugins.youtube.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/icons/default/icons.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/jquery.tinymce.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/langs/readme.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/license.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/advlist/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/anchor/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/autolink/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/autoresize/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/autosave/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/bbcode/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/charmap/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/code/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/codesample/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/colorpicker/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/contextmenu/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/directionality/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/emoticons/js/emojiimages.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/emoticons/js/emojiimages.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/emoticons/js/emojis.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/emoticons/js/emojis.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/emoticons/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/fullpage/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/fullscreen/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/help/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/hr/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/image/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/imagetools/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/importcss/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/insertdatetime/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/legacyoutput/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/link/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/lists/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/nonbreaking/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/noneditable/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/pagebreak/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/paste/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/preview/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/print/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/quickbars/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/save/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/searchreplace/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/spellchecker/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/tabfocus/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/table/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/template/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/textcolor/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/textpattern/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/toc/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/visualblocks/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/visualchars/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/plugins/wordcount/plugin.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/content/dark/content.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/content/default/content.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/content/document/content.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/content/writer/content.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/ui/oxide-dark/content.inline.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/ui/oxide-dark/content.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/ui/oxide-dark/content.mobile.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/ui/oxide-dark/fonts/tinymce-mobile.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/ui/oxide-dark/skin.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/ui/oxide-dark/skin.mobile.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/ui/oxide-dark/skin.shadowdom.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/ui/oxide/content.inline.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/ui/oxide/content.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/ui/oxide/content.mobile.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/ui/oxide/fonts/tinymce-mobile.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/ui/oxide/skin.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/ui/oxide/skin.mobile.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/skins/ui/oxide/skin.shadowdom.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/themes/mobile/theme.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/themes/silver/theme.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/tinymce.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/tinymce/tinymce.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/ORIGINAL_js/wow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/carreiras/templates/application_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/carreiras/templates/application_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/core/static/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/static/css/custom.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/core/static/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/static/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/templates/link_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/templates/link_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/templates/schools_modal.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/templates/schools_modal.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/reports/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/reports/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hermes.py" beforeDir="false" afterPath="$PROJECT_DIR$/hermes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/email/privacy_request.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/email/privacy_request.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/email/registration_request.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/email/registration_request.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/email/send_application.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/email/send_application.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/email/user_dont_exists.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/email/user_dont_exists.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/email/user_not_relative.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/email/user_not_relative.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/messages.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/messages.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -394,16 +65,16 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates/email" />
     <property name="settings.editor.selected.configurable" value="proofread" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Developer\PycharmProjects\nd_box\templates\email" />
       <recent name="E:\Developer\PycharmProjects\nd_box\apps\autorizacoes\templates\autorizacoes" />
       <recent name="E:\Developer\PycharmProjects\nd_box\apps\autorizacoes\templates" />
       <recent name="E:\Developer\PycharmProjects\nd_box" />
       <recent name="E:\Developer\PycharmProjects\nd_box\apps\reports" />
-      <recent name="E:\Developer\PycharmProjects\nd_box\apps\privacidade" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\Developer\PycharmProjects\nd_box\apps\autorizacoes\templates" />

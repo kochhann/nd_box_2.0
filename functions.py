@@ -4,13 +4,11 @@ from django.contrib.auth.models import (
 )
 from django.db import connection
 from collections import namedtuple
-
-from django.urls import reverse
-
 from apps.autorizacoes.models import (
     Autorizador,
     Aluno,
-    Enturmacao
+    Enturmacao,
+    Evento
 )
 from apps.core.models import (
     Unidade,
@@ -410,3 +408,9 @@ def user_creation_autorizador(id_number):
 
     task.status = 'completed'
     task.soft_delete()
+
+
+def generate_authorization(id_evento, tipo):
+    evento = Evento.objects.get(pk=id_evento)
+    evento.gera_autorizacoes(tipo)
+    print('autorizações geradas')

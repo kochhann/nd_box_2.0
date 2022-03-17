@@ -6,7 +6,8 @@ from .models import (
     Coordenador,
     Evento,
     EventoUnidade,
-    AutorizacoesModel
+    AutorizacoesModel,
+    Autorizacao
 )
 
 
@@ -43,4 +44,9 @@ class EventoUnidadeAdmin(admin.ModelAdmin):
 @admin.register(AutorizacoesModel)
 class AutorizacoesModelAdmin(admin.ModelAdmin):
     list_display = ['nome', 'tipo', 'ativo']
+
+
+@admin.register(Autorizacao)
+class AutorizacaoAdmin(admin.ModelAdmin):
+    list_display = ['evento', 'aluno', 'autorizado', 'ativo']
 

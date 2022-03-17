@@ -1,61 +1,96 @@
-{% extends 'base.html' %}
+{% extends 'coordenador_base.html' %}
+{% block coord %}
+<div class="heading-block fancy-title nobottomborder">
+    <table class="table">
+        <tr>
+            <td width="90%"><h4>Eventos Cadastrados</h4></td>
+            <td align="right"><a href="{% url 'evento-create' %}" class="button button-border button-rounded button-blue m-0">Novo</a></td>
+        </tr>
+    </table>
+</div>
 
-{% block content %}
-<section id="content">
-    <div class="content-wrap">
-        <div class="container clearfix">
-            <div class="row">
-                <div class="postcontent col-lg-9">
+<div class="container mw-md">
 
-                    <a href="{% url 'evento-create' %}" class="button button-border button-rounded button-blue" disabled="disabled" style="float: right;">Novo evento</a>
+    <div class="tabs block-tab-2 tabs-alt tabs-responsive tabs-justify" id="tab">
+        <ul class="tab-nav">
+            <li><a href="#tabs-active"><i class="icon-line2-calendar"></i>Agendados</a></li>
+            <li><a href="#tabs-passed"><i class="icon-line2-reload"></i>Passados</a></li>
+        </ul>
 
-                    <h4>Eventos</h4>
+        <div class="tab-container mt-4">
+
+            <div class="tab-content" id="tabs-active">
+                <div class="row col-mb-30 align-items-center">
+
                     <table class="table table-striped">
+                        <col width="31%">
+                        <col width="31%">
+                        <col width="31%">
+                        <col width="6%">
                         <thead>
                             <tr>
-                                <th>Nome</th>
                                 <th>Data</th>
-                                <th>Participantes</th>
+                                <th>Evento</th>
+                                <th>Escopo</th>
                                 <th>Ver</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in object_list %}
+                            {% for e in agendados %}
                             <tr>
-                                <td>{{item.evento.nome}}</td>
-                                <td>{{item.evento.data_evento}}</td>
-                                <td>{{item.evento.scope}}</td>
-                                <td><a href="{% url 'evento-detail' item.evento.pk %}"><i class="icon-eye"></i></a></td>
+                                <td>{{e.evento.data_evento}}</td>
+                                <td>{{e.evento}}</td>
+                                <td>{{e.evento.scope}}</td>
+                                <td><a href="{% url 'evento-detail' e.evento.pk %}"><i class="icon-eye"></i></a></td>
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="">Sem eventos</td>
+                                <td>Sem eventos passados</td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
 
                 </div>
+            </div>
+            <div class="tab-content" id="tabs-passed">
+                <div class="row col-mb-30 flex-row-reverse align-items-center">
 
-                <div class="w-100 line d-block d-md-none"></div>
-                <div class="col-md-3">
-                    <div class="list-group">
-                        <a href="{% url 'index' %}" class="list-group-item list-group-item-action d-flex justify-content-between"><div>Início</div><i class="icon-home"></i></a>
-                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between"><div>Autorizações</div><i class="icon-line-check-circle"></i></a>
-                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between"><div>Mensagens</div><i class="icon-envelope1"></i></a>
-                        <a href="{% url 'logout' %}" class="list-group-item list-group-item-action d-flex justify-content-between"><div>Logout</div><i class="icon-sign-out-alt"></i></a>
-                    </div>
+                    <table class="table table-striped">
+                        <col width="31%">
+                        <col width="31%">
+                        <col width="31%">
+                        <col width="6%">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Evento</th>
+                                <th>Escopo</th>
+                                <th>Ver</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for e in passados %}
+                            <tr>
+                                <td>{{e.evento.data_evento}}</td>
+                                <td>{{e.evento}}</td>
+                                <td>{{e.evento.scope}}</td>
+                                <td><a href="{% url 'evento-detail' e.evento.pk %}"><i class="icon-eye"></i></a></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td>Sem eventos passados</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
 
                 </div>
             </div>
+
         </div>
     </div>
-</section>
 
-
-
-<!--    {% for c in object_list %}-->
-<!--        {{ c.nome }}-->
-<!--    {% endfor %}-->
+</div>
 
 {% endblock %}

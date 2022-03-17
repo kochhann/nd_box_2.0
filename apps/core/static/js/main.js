@@ -1,7 +1,3 @@
-function($) {
-  
-  "use strict";  
-
   $(window).on('load', function() {
 
   /*Page Loader active
@@ -17,7 +13,7 @@ function($) {
         }
     });
 
-    // one page navigation 
+    // one page navigation
     $('.navbar-nav').onePageNav({
       currentClass: 'active'
     });
@@ -44,9 +40,9 @@ function($) {
         mobile: false
     });
 
-    wow.init();    
+    wow.init();
 
-     /* Testimonials Carousel 
+     /* Testimonials Carousel
     ========================================================*/
     var owl = $("#testimonials");
       owl.owlCarousel({
@@ -77,8 +73,8 @@ function($) {
                 items: 3
             }
         }
-      });  
-      
+      });
+
 
     /* Back Top Link active
     ========================================================*/
@@ -100,15 +96,14 @@ function($) {
         return false;
       });
 
-  });      
+  });
 
-}
 
 jQuery( "#tabs-profile" ).on( "tabsactivate", function( event, ui ) {
     jQuery( '.flexslider .slide' ).resize();
-}
+});
 
-function() {
+function calendar() {
     $('.component-datepicker.default').datepicker({
         autoclose: true,
         startDate: "today",

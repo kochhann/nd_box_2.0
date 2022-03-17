@@ -1,9 +1,8 @@
 <!-- Messages
 ============================================= -->
 {% for message in messages %}
-<div class="alert alert-dismissible {{ message.tags }}">
-  <i class="icon-gift"></i> {{ message }}</a>.
-  <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" aria-hidden="true"></button>
+<div class="alert fade show {{ message.tags }}">
+  <i class="icon-info"></i> {{ message }}</a>.
 </div>
 
 {% endfor %}<!-- #messages end -->

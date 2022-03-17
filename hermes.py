@@ -1,3 +1,4 @@
+import datetime
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
@@ -50,6 +51,22 @@ def send_not_relative(form):
     subject = 'Solicitação de registro no sistema ND Box'
     from_email = '"Sistema ND Box" <contato@nd.org.br>'
     to = form.cleaned_data['register_email']
+    msg = EmailMultiAlternatives(subject, email, from_email, [to])
+    msg.attach_alternative(email, "text/html")
+
+    msg.send()
+
+
+def send_test_mail():
+    email_template_name = 'email/mensagem_teste.html'
+    date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    m_context = {
+        "date": date
+    }
+    email = render_to_string(email_template_name, m_context)
+    subject = 'Teste do sistema ND Box'
+    from_email = '"Sistema ND Box" <contato@nd.org.br>'
+    to = 'juliano@kochhann.com.br'
     msg = EmailMultiAlternatives(subject, email, from_email, [to])
     msg.attach_alternative(email, "text/html")
 

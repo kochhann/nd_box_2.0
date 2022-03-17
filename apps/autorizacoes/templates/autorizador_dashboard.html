@@ -25,7 +25,7 @@
                                     <!-- Dependentes
                                     ============= -->
                                     <div class="tab-content clearfix" id="tab-relatives">
-                                        <p>Estes são as pessoas pelas quais você é o responsável educacional</p>
+                                        <p>Estas são as pessoas pelas quais você é o responsável educacional</p>
                                         <table class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
@@ -56,6 +56,7 @@
                                                     <th>Aluno</th>
                                                     <th>Evento</th>
                                                     <th>Status</th>
+                                                    <th>Ver</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -64,6 +65,7 @@
                                                     <td><b>{{ auto.aluno }}</b></td>
                                                     <td>{{ auto.evento }}</td>
                                                     <td>{{ auto.autorizado }}</td>
+                                                     <td><a href="{% url 'autorizacao-detail' auto.pk %}"><i class="icon-eye"></i></a></td>
                                                 </tr>
                                             {% empty %}
                                                 <tr>
@@ -99,12 +101,6 @@
                 </div>
             <div class="w-100 line d-block d-md-none"></div>
                 <div class="col-md-3">
-                    <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between"><div>Profile</div><i class="icon-user"></i></a>
-                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between"><div>Messages</div><i class="icon-envelope2"></i></a>
-                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between"><div>Billing</div><i class="icon-credit-cards"></i></a>
-                        <a href="{% url 'logout' %}" class="list-group-item list-group-item-action d-flex justify-content-between"><div>Logout</div><i class="icon-line2-logout"></i></a>
-                    </div>
                     <div class="fancy-title topmargin title-border">
                         <h4>Reflexão</h4>
                     </div>

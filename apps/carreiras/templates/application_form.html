@@ -124,3 +124,17 @@
     <input type="hidden" name="prefix" value="jobs-">
 
 </form>
+<script>
+    document.getElementById("id_escolaridade").onchange =
+    function() {
+        var slctd = document.getElementById("id_escolaridade").value;
+        if(slctd > 4){
+            document.getElementById("jobs-course").disabled = false;
+        }
+        else{
+            ipt = document.getElementById("jobs-course");
+            ipt.value = '';
+            ipt.disabled = true;
+        }
+    }
+</script>
