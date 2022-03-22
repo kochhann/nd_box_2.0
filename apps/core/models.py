@@ -130,6 +130,10 @@ class Turma(Base):
     def get_unidade(self):
         return self.ciclo.get_unidade
 
+    @property
+    def is_past_due(self):
+        return timezone.now().year > self.ano
+
     def __str__(self):
         return self.nome
 

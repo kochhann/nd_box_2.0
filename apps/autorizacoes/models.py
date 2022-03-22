@@ -89,19 +89,47 @@ class Aluno(Base):
         self.save()
 
     def update_enturmacao(self, gv_origin):
-        same = gv_origin == self.turma_atual.gv_code
-        if same:
-            print('mesma turma')
-        else:
-            print('outra turma')
+        if gv_origin != 0:
+            same = gv_origin == self.turma_atual.gv_code
+            if same:
+                print('mesma turma')
+                pass
+            else:
+                print('outra turma')
+                self.remove_enturmacao()
+                self.create_enturmacao(Turma.objects.get(gv_code=gv_origin))
+                eventos = Evento.objects.filter(ativo=True)
+                eventos_aluno = []
+                for e in eventos:
+                    aut = e.autorizacao_set.filter(ativo=True, aluno=self)
+                    if not aut:
+                        if e.unidade == self.unidade:
+                            eventos_aluno.append(e)
+                        if e.aluno == self:
+                            eventos_aluno.append(e)
+                        if e.turma == self.turma_atual:
+                            eventos_aluno.append(e)
+                        if e.ciclo == self.turma_atual.get_ciclo:
+                            eventos_aluno.append(e)
+                        if e.curso == self.turma_atual.get_curso:
+                            eventos_aluno.append(e)
+                if eventos_aluno:
+                    for e in eventos_aluno:
+                        pass # geração de autorizações
+
+    def create_enturmacao(self, turma):
+        enturmacao = Enturmacao(unidade=self.unidade,
+                                aluno=self,
+                                turma=turma)
+        enturmacao.save()
+
+    def remove_enturmacao(self):
+        ent = self.enturmacao_set.get(ativo=True)
+        ent.soft_delete()
 
     @property
     def turma_atual(self):
-        ent = self.enturmacao_set.all()
-        tur = 0
-        for t in ent:
-            if t.turma.ano == timezone.now().year:
-                tur = t.turma
+        tur = self.enturmacao_set.get(ativo=True).turma
         return tur
 
     def __str__(self):
@@ -125,6 +153,10 @@ class Enturmacao(Base):
 
     def __str__(self):
         return self.aluno.nome + ' ' + self.turma.nome + ' - ' + self.turma.ano
+
+    @property
+    def is_past_due(self):
+        return timezone.now().year > self.turma.ano
 
     class Meta:
         verbose_name = 'Enturmação'
@@ -169,13 +201,20 @@ class Evento(Base):
                     for turma in ciclo.turma_set.all():
                         for ent in turma.enturmacao_set.all():
                             alunos.append(ent.aluno)
-        for aluno in alunos:
-            aut = Autorizacao(evento=self,
-                              responsavel=aluno.responsavel,
-                              tipo=model,
-                              aluno=aluno,
-                              termos=model.texto)
-            aut.save()
+
+        autorizacoes_geradas = self.autorizacao_set.all()
+        alunos_processados = []
+        for a in autorizacoes_geradas:
+            alunos_processados.append(a.aluno)
+        lista_nova = set(alunos_processados) ^ set(alunos)
+        if len(lista_nova) > 0:
+            for aluno in lista_nova:
+                aut = Autorizacao(evento=self,
+                                  responsavel=aluno.responsavel,
+                                  tipo=model,
+                                  aluno=aluno,
+                                  termos=model.texto)
+                aut.save()
 
     def get_absolute_url(self):
         return reverse('index')

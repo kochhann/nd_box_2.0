@@ -136,19 +136,20 @@ def get_gv_user_relatives(gv_code, year):
 
 def get_enturmacao(gv_code, year):
     cursor = connection.cursor()
-    cursor.execute("SELECT ALUP.NOME ALUNO,"
-                   "       ALU.MATRICULA"
-                   " FROM GVContabilidade.dbo.ACD_TURMA TUR"
-                   "    INNER JOIN GVContabilidade.dbo.ACD_ENTURMACAO ENT"
-                   "        ON TUR.CODIGOTURMA = ENT.CODIGOTURMA"
-                   "    INNER JOIN GVContabilidade.dbo.ACD_ALUNO ALU"
-                   "        ON ENT.CODIGOALUNO = ALU.CODIGOALUNO"
-                   "    INNER JOIN GVContabilidade.dbo.PAD_PESSOA ALUP"
-                   "        ON ALU.CODIGOPESSOA = ALUP.CODIGOPESSOA"
-                   " WHERE ALUP.CODIGOPESSOA = '%s'"
-                   "      AND TUR.ANOINICIO = '%s'"
-                   " GROUP BY ALUP.NOME,"
-                   "         ALU.MATRICULA" % (gv_code, year))
+    if gv_code > 0:
+        cursor.execute("SELECT ALUP.NOME ALUNO,"
+                       "       ALU.MATRICULA"
+                       " FROM GVContabilidade.dbo.ACD_TURMA TUR"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_ENTURMACAO ENT"
+                       "        ON TUR.CODIGOTURMA = ENT.CODIGOTURMA"
+                       "    INNER JOIN GVContabilidade.dbo.ACD_ALUNO ALU"
+                       "        ON ENT.CODIGOALUNO = ALU.CODIGOALUNO"
+                       "    INNER JOIN GVContabilidade.dbo.PAD_PESSOA ALUP"
+                       "        ON ALU.CODIGOPESSOA = ALUP.CODIGOPESSOA"
+                       " WHERE ALUP.CODIGOPESSOA = '%s'"
+                       "      AND TUR.ANOINICIO = '%s'"
+                       " GROUP BY ALUP.NOME,"
+                       "         ALU.MATRICULA" % (gv_code, year))
     qs = namedtuplefetchall(cursor)
     return qs
 
@@ -358,7 +359,9 @@ def get_turma_aluno(matricula, year):
                    " WHERE ALU.MATRICULA = '%s'"
                    "      AND TUR.ANOINICIO = '%s'" % (matricula, year))
     qs = namedtuplefetchall(cursor)
-    codigo = qs[0].CODIGOTURMA
+    codigo = 0
+    if len(qs) > 0:
+        codigo = qs[0].CODIGOTURMA
     return codigo
 
 
@@ -404,7 +407,7 @@ def user_creation_autorizador(id_number):
     # make grouping
     for item in alunos:
         turma = Turma.objects.get(gv_code=get_turma_aluno(item.matricula, datetime.now().year))
-        id_ent = create_enturmacao(item, turma)
+        item.create_enturmacao(turma)
 
     task.status = 'completed'
     task.soft_delete()
