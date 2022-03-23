@@ -27,7 +27,9 @@ from .models import (
     EventoUnidade,
     Coordenador,
     Aluno,
-    Autorizacao
+    Autorizacao,
+    AutorizacoesModel,
+    EventoTipoAutorizacao
 )
 from apps.core.models import (
     Turma,
@@ -93,12 +95,14 @@ class EventoCreate(CreateView):
     def get_context_data(self, **kwargs):
         coord = Coordenador.objects.get(user=self.request.user)
         unidade = coord.unidade
-        cursos = Curso.objects.filter(unidade=unidade)
-        alunos = Aluno.objects.filter(unidade=unidade)
-        ciclos = Ciclo.objects.filter(curso__in=cursos)
-        turmas = Turma.objects.filter(ciclo__in=ciclos)
+        t_autorizacoes = AutorizacoesModel.objects.all()
+        cursos = Curso.objects.filter(unidade=unidade, ativo=True)
+        alunos = Aluno.objects.filter(unidade=unidade, ativo=True)
+        ciclos = Ciclo.objects.filter(curso__in=cursos, ativo=True)
+        turmas = Turma.objects.filter(ciclo__in=ciclos, ativo=True)
         unidades = Unidade.objects.filter(pk=coord.unidade.pk)
         context = super(EventoCreate, self).get_context_data(**kwargs)
+        context['coordenador'] = coord
         context['doc_title'] = 'Gestão de eventos'
         context['top_app_name'] = 'Autorizações'
         context['pt_h1'] = 'Gestão de eventos'
@@ -109,12 +113,19 @@ class EventoCreate(CreateView):
         context['cursos'] = cursos
         context['alunos'] = alunos
         context['unidades'] = unidades
+        context['t_autorizacoes'] = t_autorizacoes
         return context
 
     def form_valid(self, form, *args, **kwargs):
         evento = form.save(commit=False)
         evento.ativo = True
         evento.save()
+        tipo = form.cleaned_data.get('tipo_autorizacao')
+        for i in tipo:
+            ta = AutorizacoesModel.objects.get(pk=i.pk)
+            tipos_evento = EventoTipoAutorizacao(tipo_autorizacao=ta,
+                                                 evento=evento)
+            tipos_evento.save()
         coord = Coordenador.objects.get(user=self.request.user)
         ev_un = EventoUnidade(evento=evento, unidade=coord.unidade)
         ev_un.save()
@@ -122,6 +133,7 @@ class EventoCreate(CreateView):
         return super(EventoCreate, self).form_valid(form)
 
     def form_invalid(self, form, *args, **kwargs):
+        print(form.errors)
         return super(EventoCreate, self).form_invalid(form, *args, **kwargs)
 
 

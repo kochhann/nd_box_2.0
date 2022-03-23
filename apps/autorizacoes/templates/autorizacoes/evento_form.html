@@ -28,6 +28,11 @@
                 default" placeholder="Selecione a data" required autocomplete="off">
             </div>
             <div class="col-12 form-group">
+                <input type="text" name="local_evento" id="eventos-local" class="form-control"
+                       value="{{coordenador.unidade}} - {{coordenador.unidade.cidade}}/{{coordenador.unidade.estado}}"
+                       required>
+            </div>
+            <div class="col-12 form-group">
                 <textarea name="descricao" id="eventos-descricao" class="form-control" cols="30" rows="5"
                           maxlength="1000" minlength="20"
                 style="resize: none;" placeholder="Descrição (mínimo de 20 caracteres)" onkeyup="countChar(this)" required></textarea>
@@ -79,6 +84,15 @@
                 <select name="unidade" class="form-select" id="id_unidade">
                     <option value="" selected>-- Unidade --</option>
                     {% for item in unidades %}
+                    <option value="{{item.pk}}">{{item}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="divider divider-lite">Autorizações Necessárias</div>
+            <div class="col-12 form-group">
+                <select style="border-color: red;" class="selectpicker" name="tipo_autorizacao" required id="id_tipo_autorizacao" multiple>
+                    {% for item in t_autorizacoes %}
                     <option value="{{item.pk}}">{{item}}</option>
                     {% endfor %}
                 </select>

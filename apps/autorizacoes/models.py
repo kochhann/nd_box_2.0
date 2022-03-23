@@ -168,6 +168,8 @@ class Evento(Base):
     nome = models.CharField("Nome", max_length=200, blank=False, null=False)
     descricao = models.CharField("Descricao", max_length=1000, blank=False, null=False)
     data_evento = models.DateField('Data', blank=False, null=False)
+    data_termino = models.DateField('Data Término', blank=True, null=True)
+    local_evento = models.CharField("Cidade/UF", max_length=100, blank=False, null=False)
     aluno = models.ForeignKey(Aluno, verbose_name='Aluno', on_delete=models.SET_NULL, blank=True, null=True)
     turma = models.ForeignKey(Turma, verbose_name='Turma', on_delete=models.SET_NULL, blank=True, null=True)
     ciclo = models.ForeignKey(Ciclo, verbose_name='Ciclo', on_delete=models.SET_NULL, blank=True, null=True)
@@ -216,7 +218,8 @@ class Evento(Base):
                                   termos=model.texto)
                 aut.save()
 
-    def get_absolute_url(self):
+    @staticmethod
+    def get_absolute_url():
         return reverse('index')
 
     def soft_delete(self):
@@ -251,8 +254,8 @@ class Evento(Base):
 
 class EventoUnidade(Base):
     id = models.AutoField(primary_key=True, blank=False, null=False)
-    evento = models.ForeignKey(Evento, verbose_name='Evento', on_delete=models.PROTECT, blank=False, null=False)
-    unidade = models.ForeignKey(Unidade, verbose_name='Unidade', on_delete=models.PROTECT, blank=False, null=False)
+    evento = models.ForeignKey(Evento, verbose_name='Evento', on_delete=models.CASCADE, blank=False, null=False)
+    unidade = models.ForeignKey(Unidade, verbose_name='Unidade', on_delete=models.CASCADE, blank=False, null=False)
 
     def soft_delete(self):
         self.ativo = False
@@ -260,7 +263,7 @@ class EventoUnidade(Base):
         self.save()
 
     def __str__(self):
-        return self.id
+        return self.evento.nome
 
     @property
     def data_evento(self):
@@ -315,3 +318,27 @@ class Autorizacao(Base):
     class Meta:
         verbose_name = 'Autorização'
         verbose_name_plural = 'Autorizações'
+
+
+class EventoTipoAutorizacao(Base):
+    id = models.AutoField(primary_key=True, blank=False, null=False)
+    tipo_autorizacao = models.ForeignKey(AutorizacoesModel,
+                                         verbose_name='Tipo de Autorização',
+                                         related_name='tipos_autorizacao',
+                                         on_delete=models.CASCADE,
+                                         blank=False, null=False)
+    evento = models.ForeignKey(Evento, verbose_name='Evento',
+                               on_delete=models.CASCADE,
+                               blank=False, null=False)
+
+    def soft_delete(self):
+        self.ativo = False
+        self.data_desativado = timezone.now()
+        self.save()
+
+    def __str__(self):
+        return self.evento.nome + ' - ' + self.tipo_autorizacao.nome
+
+    class Meta:
+        verbose_name = 'Tipo de Autorização do Evento'
+        verbose_name_plural = 'Tipos de Autorização do Evento'

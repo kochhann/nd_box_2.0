@@ -210,6 +210,18 @@ blockquote{
 	appearance: none;
 }
 
+.btn-light {
+	color: #000;
+	background-color: #f8f9fa;
+	border-color: #f7b400;
+}
+
+.btn-light:hover {
+	color: #000;
+	background-color: #f9fafb;
+	border-color: #f7b400;
+}
+
 .form-check-input {
 	width: 1em;
 	height: 1em;

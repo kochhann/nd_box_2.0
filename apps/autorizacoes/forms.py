@@ -1,10 +1,13 @@
 from django import forms
-from .models import Evento
+from .models import Evento, AutorizacoesModel
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
 
 class EventoForm(forms.ModelForm):
+    tipo_autorizacao = forms.ModelMultipleChoiceField(queryset=AutorizacoesModel.objects.all(),
+                                                      widget=forms.SelectMultiple)
+
     class Meta:
         model = Evento
         fields = '__all__'
