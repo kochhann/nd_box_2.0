@@ -146,7 +146,8 @@ class IndexView(TemplateView):
             context['autorizacoes'] = aut.autorizacao_set.all()
         if coordenador:
             coord = Coordenador.objects.get(user=self.request.user)
-            ev_un = EventoUnidade.objects.filter(ativo=True, unidade=coord.unidade)
+            ev_un = EventoUnidade.objects.filter(ativo=True, unidade=coord.unidade,
+                                                 evento__data_cancelamento=None)
             ev_un_x = []
             for e in ev_un:
                 if not e.evento.is_past_due:

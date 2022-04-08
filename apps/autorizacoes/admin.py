@@ -44,7 +44,7 @@ class EventoUnidadeAdmin(admin.ModelAdmin):
 
 @admin.register(AutorizacoesModel)
 class AutorizacoesModelAdmin(admin.ModelAdmin):
-    list_display = ['nome', 'tipo', 'ativo']
+    list_display = ['nome', 'ativo']
 
 
 @admin.register(Autorizacao)

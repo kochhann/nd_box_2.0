@@ -57,6 +57,26 @@ def send_not_relative(form):
     msg.send()
 
 
+def send_cancel_mail(evento, responsavel):
+    email_template_name = 'email/event_canceled.html'
+    date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    m_context = {
+        "evento": evento.nome,
+        "motivo": evento.obs_cancelamento,
+        "data_evento": evento.data_evento.strftime("%d/%m/%Y"),
+        "sender": 'Eventos'
+
+    }
+    email = render_to_string(email_template_name, m_context)
+    subject = 'Rede Notre Dame - Aviso de cancelamento de evento'
+    from_email = '"Sistema ND Box" <contato@nd.org.br>'
+    to = responsavel.email
+    msg = EmailMultiAlternatives(subject, email, from_email, [to])
+    msg.attach_alternative(email, "text/html")
+
+    msg.send()
+
+
 def send_test_mail():
     email_template_name = 'email/mensagem_teste.html'
     date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")

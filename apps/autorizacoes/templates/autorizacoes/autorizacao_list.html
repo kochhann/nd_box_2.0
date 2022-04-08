@@ -3,9 +3,9 @@
 <div class="heading-block fancy-title nobottomborder">
     <table class="table">
         <tr>
-            <td width="90%"><h4>Autorizações - {{evento.nome}}</h4></td>
+            <td width="90%"><h4>Autorizações - {{evento.nome}}{% if evento.is_canceled %} - Cancelado em {{evento.data_cancelamento}} {% endif %}</h4></td>
             <td>
-                {% if autorizacoes %}
+                {% if autorizacoes and not evento.is_canceled %}
                 <div class="btn-group">
                     <button type="button" class="button button-small button-border button-rounded
                      button-blue dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -31,6 +31,7 @@
             <thead>
                 <tr>
                     <th>Aluno</th>
+                    <th>Tipo</th>
                     <th>Status</th>
                     <th>Data recebimento</th>
                 </tr>
@@ -38,21 +39,36 @@
             <tbody>
                 {% for e in autorizacoes %}
                 <tr>
-                    <td>{{e.aluno}}</td>
+                    <td>
+                        {{e.aluno}}
+                    </td>
+                    <td>
+                        {{e.tipo.apelido}}
+                    </td>
                     {% if e.autorizado == "Autorizado" %}
-                    <td style="color:#2ecc71">
+                        <td style="color:#2ecc71">
                     {% elif e.autorizado == "Pendente" %}
-                    <td style="color:#D2691E">
+                        <td style="color:#D2691E">
                     {% elif e.autorizado == "Negado" %}
-                    <td style="color:#B22222">
+                        <td style="color:#B22222">
+                    {% elif e.autorizado == "Cancelado" %}
+                        <td style="color:#B22222">
                     {% endif %}
                         {{e.autorizado}}
                     </td>
-                    <td>{{e.data_modificacao}}</td>
+                    {% if e.data_modificacao is not None %}
+                    <td>
+                        {{e.data_modificacao}}
+                    </td>
+                    {% else %}
+                    <td>
+                        {{e.e.data_criacao}}
+                    </td>
+                    {% endif %}
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="3">Sem dados para exibir</td>
+                    <td colspan="4">Sem dados para exibir</td>
                 </tr>
                 {% endfor %}
             </tbody>

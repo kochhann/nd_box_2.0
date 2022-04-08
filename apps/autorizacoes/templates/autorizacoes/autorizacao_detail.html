@@ -18,8 +18,21 @@
                     <h5>Dados do evento</h5>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><b>{{ object.evento }}</b></li>
-                        <li class="list-group-item">Quando: {{ object.evento.data_evento }}</li>
+                        <li class="list-group-item">Quando:
+                        {% if object.evento.data_evento != object.evento.data_termino %}
+                            {% if object.evento.data_evento|date:'m' != object.evento.data_termino|date:'m' %}
+                                {{object.evento.data_evento|date:'d'}} de {{object.evento.data_evento|date:'M'}} à {{object.data_termino}}
+                            {% else %}
+                                {{object.evento.data_evento|date:'d'}} à {{object.evento.data_termino}}
+                            {% endif %}
+                        {% else %}
+                            {{object.evento.data_evento}}
+                        {% endif %}
+                        </li>
+
+<!--                        <li class="list-group-item">Quando: {{ object.evento.data_evento }}</li>-->
                         <li class="list-group-item">Quem participa: {{ object.evento.scope }}</li>
+                        <li class="list-group-item">Onde: {{ object.evento.local_evento }}</li>
                         <li class="list-group-item">Do que se trata: {{ object.evento.descricao }}</li>
                     </ul>
                 </div>
@@ -58,6 +71,20 @@
 
                     <input type="hidden" name="prefix" value="consent-">
                 </form>
+
+                {% elif status == "Cancelado" %}
+
+                <div class="col-md-12 form-group">
+                    <div class="label">
+                        <label>Evento cancelado em {{ object.data_cancelamento }} pelo seguinte motivo:</label>
+                    </div>
+                    <blockquote class="quote">
+                        <p><i>{{ object.evento.obs_cancelamento }}</i></p>
+                    </blockquote>
+                </div>
+                 <div class="col-12">
+                    <a href="{% url 'index' %}" class="button button-border button-rounded button-blue">Voltar</a>
+                </div>
 
                 {% else %}
 

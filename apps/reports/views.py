@@ -71,6 +71,8 @@ def get_employees_data(id_school, slctd_year):
                        "                                  WHERE UNIDADE = %s"
                        "                                        AND YEAR(DATAFOLHA) = '%s'"
                        "                              )"
+                       " AND LEFT(CONTRATO, 1) <> 9"
+                       " AND RHCONTRATOS.DATATERMINOSUBCONTRATO IS NULL "
                        "ORDER BY RHPESSOAS.NOME" % (id_school, id_school, slctd_year))
     else:
         cursor.execute("SELECT RHCONTRATOS.CONTRATO,"
@@ -103,6 +105,8 @@ def get_employees_data(id_school, slctd_year):
                        "                                  WHERE UNIDADE IN (15, 1)"
                        "                                        AND YEAR(DATAFOLHA) = '%s'"
                        "                              )"
+                       " AND LEFT(CONTRATO, 1) <> 9"
+                       " AND RHCONTRATOS.DATATERMINOSUBCONTRATO IS NULL "
                        "ORDER BY RHPESSOAS.NOME" % slctd_year)
     employees_list = namedtuplefetchall(cursor)
 
@@ -681,7 +685,10 @@ class PrintStatisticsView(View):
                     elements.append(Spacer(1, 0.25 * cm))
 
             if len(deaths_data) > 0:
-                elements.append(Paragraph('Durante o ano faleceu:', h1))
+                str_deaths = 'Durante o ano faleceu:'
+                if len(deaths_data) > 1:
+                    str_deaths = 'Durante o ano faleceram:'
+                elements.append(Paragraph(str_deaths, h1))
                 elements.append(Spacer(1, 0.25 * cm))
                 count = 0
                 data = [[Paragraph('', h1),

@@ -1,11 +1,14 @@
 from django.contrib import messages
 from operator import attrgetter
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from datetime import date
 from django.http import HttpResponse
 from io import BytesIO
+
+from django.utils.decorators import method_decorator
 from reportlab.lib.styles import ParagraphStyle as PS
 from reportlab.platypus import (
     Table,
@@ -19,7 +22,8 @@ from django.views.generic import (
     CreateView,
     ListView,
     UpdateView,
-    DetailView
+    DetailView,
+    FormView
 )
 from .models import (
     Autorizador,
@@ -37,11 +41,20 @@ from apps.core.models import (
     Curso,
     Unidade
 )
-from .forms import EventoForm
+from .forms import (
+    EventoForm,
+    EventoEditForm,
+    EventoCancelForm
+)
 from apps.agamotto.models import ScheduledTask
 
 
-def gera_autorizacoes(request, evento_id, tipo):
+def gera_autorizacoes(request, evento_id):
+    evento = Evento.objects.get(pk=evento_id)
+    tipos = []
+    for item in evento.eventotipoautorizacao_set.all():
+        tipos.append(item.tipo_autorizacao)
+
     check = ScheduledTask.objects.filter(gv_code=evento_id, task='generateAuth')
     if len(check) > 0:
         for i in check:
@@ -50,14 +63,16 @@ def gera_autorizacoes(request, evento_id, tipo):
             if i.status == 'completed':
                 return redirect('evento-autorizacoes-success')
     else:
-        st = ScheduledTask(task='generateAuth',
-                           status='scheduled',
-                           gv_code=evento_id,
-                           extra_field=tipo)
-        st.save()
+        for item in tipos:
+            st = ScheduledTask(task='generateAuth',
+                               status='scheduled',
+                               gv_code=evento_id,
+                               extra_field=item.pk)
+            st.save()
         return redirect('evento-autorizacoes-success')
 
 
+@method_decorator(login_required, name='dispatch')
 class AutorizadorView(TemplateView):
     template_name = 'autorizador_dashboard.html'
 
@@ -81,11 +96,15 @@ class EventoDelete(DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.object.soft_delete()
-        ev_un = EventoUnidade.objects.get(evento=self.object.pk)
-        ev_un.soft_delete()
-        messages.success(self.request, 'Evento excluído com sucesso!')
-        return HttpResponseRedirect(self.get_success_url())
+        if self.object.soft_delete():
+            ev_un = EventoUnidade.objects.get(evento=self.object.pk)
+            ev_un.soft_delete()
+            messages.success(self.request, 'Evento excluído com sucesso!')
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            messages.success(self.request, self.object.msg_erro_cancelamento)
+            url = reverse('evento-detail', kwargs={'pk': self.object.pk})
+            return HttpResponseRedirect(url)
 
 
 class EventoCreate(CreateView):
@@ -121,11 +140,13 @@ class EventoCreate(CreateView):
         evento.ativo = True
         evento.save()
         tipo = form.cleaned_data.get('tipo_autorizacao')
+        # inclui as categorias de autorização que serão necessárias
         for i in tipo:
             ta = AutorizacoesModel.objects.get(pk=i.pk)
             tipos_evento = EventoTipoAutorizacao(tipo_autorizacao=ta,
                                                  evento=evento)
             tipos_evento.save()
+
         coord = Coordenador.objects.get(user=self.request.user)
         ev_un = EventoUnidade(evento=evento, unidade=coord.unidade)
         ev_un.save()
@@ -148,11 +169,14 @@ class EventoUnidadeList(ListView):
         eventos = sorted(ev_un, key=attrgetter('evento.data_evento'))
         passados = []
         agendados = []
+        cancelados = []
         for e in eventos:
-            if e.evento.data_evento >= date.today():
-                agendados.append(e)
-            else:
+            if e.evento.is_canceled:
+                cancelados.append(e)
+            elif e.evento.is_past_due:
                 passados.append(e)
+            else:
+                agendados.append(e)
         context['doc_title'] = 'Gestão de eventos'
         context['top_app_name'] = 'Autorizações'
         context['pt_h1'] = 'Gestão de eventos'
@@ -161,26 +185,49 @@ class EventoUnidadeList(ListView):
         context['eventos'] = eventos
         context['passados'] = passados
         context['agendados'] = agendados
+        context['cancelados'] = cancelados
         return context
 
 
 class EventoEdit(UpdateView):
     model = Evento
-    fields = ['nome', 'data_evento', 'descricao']
+    form_class = EventoEditForm
     template_name = 'autorizacoes/evento_edit_form.html'
 
     def get_context_data(self, **kwargs):
         coord = Coordenador.objects.get(user=self.request.user)
         context = super(EventoEdit, self).get_context_data(**kwargs)
+        t_autorizacoes = AutorizacoesModel.objects.all()
+        t_aut_evento = self.object.eventotipoautorizacao_set.all()
+        t_autorizacoes_ev = []
+        if t_aut_evento:
+            for e in t_aut_evento:
+                t_autorizacoes_ev.append(e.tipo_autorizacao)
+            autor_disponiveis = set(t_autorizacoes) ^ set(t_autorizacoes_ev)
+
+        autorizacoes = self.object.autorizacao_set.all()
         context['doc_title'] = 'Gestão de eventos'
         context['top_app_name'] = 'Autorizações'
         context['pt_h1'] = 'Gestão de eventos'
         context['pt_span'] = coord.name + ' - ' + coord.unidade.nome
         context['pt_breadcrumb2'] = 'Autorizações'
+        context['coordenador'] = coord
+        context['t_autorizacoes'] = t_aut_evento
+        context['autorizacoes_disponiveis'] = autor_disponiveis
+        context['autorizacoes_geradas'] = autorizacoes
+
         return context
 
     def form_valid(self, form):
         evento = form.save()
+        tipo = form.cleaned_data.get('tipo_autorizacao')
+        if tipo:
+            for i in tipo:
+                ta = AutorizacoesModel.objects.get(pk=i.pk)
+                tipos_evento = EventoTipoAutorizacao(tipo_autorizacao=ta,
+                                                     evento=evento)
+                tipos_evento.save()
+
         messages.success(self.request, 'Evento ' + evento.nome + ' alterado com sucesso')
         return super(EventoEdit, self).form_valid(form)
 
@@ -189,14 +236,16 @@ class EventoEdit(UpdateView):
         return super(EventoEdit, self).form_invalid(form, *args, **kwargs)
 
 
-class EventoView(DetailView):
-    # template_name = 'evento_detail.html'
+class EventoCancel(UpdateView):
     model = Evento
+    form_class = EventoCancelForm
+    template_name = 'autorizacoes/evento_cancel_form.html'
 
     def get_context_data(self, **kwargs):
-        context = super(EventoView, self).get_context_data(**kwargs)
+        context = super(EventoCancel, self).get_context_data(**kwargs)
         coord = Coordenador.objects.get(user=self.request.user)
         aut = self.object.autorizacao_set.all()
+        t_aut = self.object.eventotipoautorizacao_set.all()
         geradas = len(aut)
         aceitas = 0
         negadas = 0
@@ -210,10 +259,77 @@ class EventoView(DetailView):
         context['pt_h1'] = 'Gestão de eventos'
         context['pt_span'] = coord.name + ' - ' + coord.unidade.nome
         context['pt_breadcrumb2'] = 'Autorizações'
+        context['t_autorizacoes'] = t_aut
         context['autorizacoes'] = geradas
         context['aceitas'] = aceitas
         context['negadas'] = negadas
         return context
+
+    def form_valid(self, form):
+        evento = form.save(commit=False)
+        evento.cancelar(evento.obs_cancelamento)
+
+        messages.success(self.request, 'Evento ' + evento.nome + ' cancelado com sucesso')
+        return super(EventoCancel, self).form_valid(form)
+
+    def form_invalid(self, form, *args, **kwargs):
+        messages.error(self.request, 'Erro no preenchimento: ' + str(form.errors))
+        return super(EventoCancel, self).form_invalid(form, *args, **kwargs)
+
+
+class EventoView(DetailView):
+    # template_name = 'evento_detail.html'
+    model = Evento
+
+    def get_context_data(self, **kwargs):
+        context = super(EventoView, self).get_context_data(**kwargs)
+        coord = Coordenador.objects.get(user=self.request.user)
+        aut = self.object.autorizacao_set.all()
+        t_aut = self.object.eventotipoautorizacao_set.all()
+        geradas = len(aut)
+        aceitas = 0
+        negadas = 0
+        for a in aut:
+            if a.autorizado == 'Autorizado':
+                aceitas += 1
+            else:
+                negadas += 1
+        context['doc_title'] = 'Gestão de eventos'
+        context['top_app_name'] = 'Autorizações'
+        context['pt_h1'] = 'Gestão de eventos'
+        context['pt_span'] = coord.name + ' - ' + coord.unidade.nome
+        context['pt_breadcrumb2'] = 'Autorizações'
+        context['t_autorizacoes'] = t_aut
+        context['autorizacoes'] = geradas
+        context['aceitas'] = aceitas
+        context['negadas'] = negadas
+        return context
+
+
+class EventoTipoAutorizacaoDelete(DeleteView):
+    model = EventoTipoAutorizacao
+    # success_url = reverse_lazy('index')
+
+    def get_context_data(self, **kwargs):
+        context = super(EventoTipoAutorizacaoDelete, self).get_context_data(**kwargs)
+        coord = Coordenador.objects.get(user=self.request.user)
+        self.object = self.get_object()
+        evento = self.object.evento
+        context['evento'] = evento
+        context['doc_title'] = 'Gestão de eventos'
+        context['top_app_name'] = 'Autorizações'
+        context['pt_h1'] = 'Gestão de eventos'
+        context['pt_span'] = coord.name + ' - ' + coord.unidade.nome
+        context['pt_breadcrumb2'] = 'Autorizações'
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        messages.success(self.request, self.object.tipo_autorizacao.nome +
+                         'excluído com sucesso do evento ' + self.object.evento.nome)
+        url = reverse('evento-update', kwargs={'pk': self.object.evento.pk})
+        return HttpResponseRedirect(url)
 
 
 class AutorizacaoEventoList(ListView):
@@ -303,6 +419,9 @@ class AutorizacaoView(DetailView):
         if aut.autorizado == 'Negado':
             context['status'] = 'Negado'
             messages.error(self.request, 'Esta atividade foi NEGADA em ' + aut.data_modificacao.strftime('%d/%m/%Y'))
+        if aut.autorizado == 'Cancelado':
+            context['status'] = 'Cancelado'
+            messages.error(self.request, 'Esta atividade foi CANCELADA em ' + aut.evento.data_cancelamento.strftime('%d/%m/%Y'))
         return context
 
 
@@ -341,6 +460,11 @@ class PrintAutReportView(View):
         evento_id = self.kwargs['evento_id']
         evento = Evento.objects.get(pk=evento_id)
         autorizacoes = evento.autorizacao_set.all()
+        tipos = []
+        for a in autorizacoes:
+            tipos.append(a.tipo)
+        tipos = list(dict.fromkeys(tipos))  # Remover duplicatas
+
         if report_type == 0:
             autorizacoes = Autorizacao.objects.filter(evento=evento, autorizado='Autorizado')
             report_type = 'Concedidas'
@@ -386,6 +510,13 @@ class PrintAutReportView(View):
             fontSize=12,
             leading=14)
 
+        c3 = PS(
+            name='Cell1',
+            fontName='Times-Bold',
+            alignment=TA_JUSTIFY,
+            fontSize=12,
+            leading=14)
+
         n_session = 1
 
         # Body
@@ -399,20 +530,25 @@ class PrintAutReportView(View):
                     Spacer(1, 0.25 * cm)]
 
         if autorizacoes:
-            for a in autorizacoes:
-                day = a.data_modificacao.strftime("%d")
-                month = a.data_modificacao.strftime("%m")
-                year = a.data_modificacao.strftime("%Y")
-                data = [[Paragraph(a.aluno.nome.title(), c2),
-                         '-',
-                         Paragraph(a.autorizado + ' em ' + a.data_modificacao.strftime("%d/%m/%Y"), c1)]]
-                t = Table(data, colWidths=[220.0, 15.0, 220.0])
-                t.setStyle(TableStyle([('ALIGN', (0, 0), (1, 0), 'LEFT'),
-                                       ('ALIGN', (1, 0), (3, 0), 'CENTRE'),
-                                       ('VALIGN', (0, 0), (3, 0), 'TOP'),
-                                       ]))
-                elements.append(t)
+            for item in tipos:
                 elements.append(Spacer(1, 0.25 * cm))
+                elements.append(Paragraph(item.nome, c3))
+                elements.append(Spacer(1, 0.25 * cm))
+                for a in autorizacoes:
+                    if a.tipo == item:
+                        day = a.data_modificacao.strftime("%d")
+                        month = a.data_modificacao.strftime("%m")
+                        year = a.data_modificacao.strftime("%Y")
+                        data = [[Paragraph(a.aluno.nome.title(), c2),
+                                 '-',
+                                 Paragraph(a.autorizado + ' em ' + a.data_modificacao.strftime("%d/%m/%Y"), c1)]]
+                        t = Table(data, colWidths=[220.0, 15.0, 220.0])
+                        t.setStyle(TableStyle([('ALIGN', (0, 0), (1, 0), 'LEFT'),
+                                               ('ALIGN', (1, 0), (3, 0), 'CENTRE'),
+                                               ('VALIGN', (0, 0), (3, 0), 'TOP'),
+                                               ]))
+                        elements.append(t)
+                        elements.append(Spacer(1, 0.25 * cm))
         else:
             elements = [Paragraph('Não há autorizações ' + report_type, h2),
                         Spacer(1, 0.25 * cm)]

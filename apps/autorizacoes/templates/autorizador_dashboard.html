@@ -31,6 +31,7 @@
                                                 <tr>
                                                     <th>Nome</th>
                                                     <th>Escola</th>
+                                                    <th>Turma</th>
                                                     <th>Matrícula</th>
                                                 </tr>
                                             </thead>
@@ -39,6 +40,7 @@
                                                 <tr>
                                                     <td><b>{{ aluno.nome }}</b></td>
                                                     <td>{{ aluno.unidade }}</td>
+                                                    <td>{{ aluno.turma_atual }}</td>
                                                     <td>{{ aluno.matricula }}</td>
                                                 </tr>
                                             {% endfor %}
@@ -55,6 +57,7 @@
                                                 <tr>
                                                     <th>Aluno</th>
                                                     <th>Evento</th>
+                                                    <th>Tipo</th>
                                                     <th>Status</th>
                                                     <th>Ver</th>
                                                 </tr>
@@ -62,10 +65,11 @@
                                             <tbody>
                                             {% for auto in autorizacoes %}
                                                 <tr>
-                                                    <td><b>{{ auto.aluno }}</b></td>
+                                                    <td><b>{{ auto.aluno.nome }}</b></td>
                                                     <td>{{ auto.evento }}</td>
+                                                    <td>{{ auto.tipo.apelido }}</td>
                                                     <td>{{ auto.autorizado }}</td>
-                                                     <td><a href="{% url 'autorizacao-detail' auto.pk %}"><i class="icon-eye"></i></a></td>
+                                                    <td><a href="{% url 'autorizacao-detail' auto.pk %}"><i class="icon-eye"></i></a></td>
                                                 </tr>
                                             {% empty %}
                                                 <tr>

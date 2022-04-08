@@ -23,9 +23,12 @@
             <div class="col-6 form-group">
                 <input type="text" name="nome" id="eventos-nome" class="form-control" value="" placeholder="Nome do Evento" required>
             </div>
-            <div class="col-6 form-group">
-                <input type="text" value="" name="data_evento" id="eventos-data" class="form-control text-start component-datepicker
-                default" placeholder="Selecione a data" required autocomplete="off">
+            <div class="col-md-6 bottommargin-sm">
+                <div class="input-daterange component-datepicker input-group">
+                    <input type="text" name="data_evento" value="" class="form-control text-start" placeholder="Selecione a data">
+                    <div class="input-group-text">à</div>
+                    <input type="text" name="data_termino" value="" class="form-control text-start" placeholder="Selecione a data">
+                </div>
             </div>
             <div class="col-12 form-group">
                 <input type="text" name="local_evento" id="eventos-local" class="form-control"
@@ -105,7 +108,7 @@
             <div class="col-12">
                 <button type="submit" name="eventos-submit" id="eventos-submit" class="button button-border button-rounded button-blue">Salvar</button>
             </div>
-            <input type="hidden" name="prefix" value="jobs-" />
+            <input type="hidden" name="prefix" value="eventos-" />
 
         </form>
     </div>

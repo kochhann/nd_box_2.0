@@ -1,7 +1,5 @@
 from django import forms
 from .models import Evento, AutorizacoesModel
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
 
 
 class EventoForm(forms.ModelForm):
@@ -38,3 +36,20 @@ class EventoForm(forms.ModelForm):
 
         # return any errors if found
         return self.cleaned_data
+
+
+class EventoEditForm(forms.ModelForm):
+    tipo_autorizacao = forms.ModelMultipleChoiceField(queryset=AutorizacoesModel.objects.all(),
+                                                      widget=forms.SelectMultiple,
+                                                      required=False)
+
+    class Meta:
+        model = Evento
+        fields = ['nome', 'data_evento', 'data_termino', 'local_evento', 'descricao']
+
+
+class EventoCancelForm(forms.ModelForm):
+
+    class Meta:
+        model = Evento
+        fields = ['obs_cancelamento']

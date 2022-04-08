@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from datetime import date
+from hermes import send_cancel_mail
 from apps.core.models import (
     Base,
     Turma,
@@ -8,6 +9,7 @@ from apps.core.models import (
     Curso,
     Unidade
 )
+from apps.agamotto.models import ScheduledTask
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -115,7 +117,7 @@ class Aluno(Base):
                             eventos_aluno.append(e)
                 if eventos_aluno:
                     for e in eventos_aluno:
-                        pass # geração de autorizações
+                        pass  # geração de autorizações
 
     def create_enturmacao(self, turma):
         enturmacao = Enturmacao(unidade=self.unidade,
@@ -168,34 +170,41 @@ class Evento(Base):
     nome = models.CharField("Nome", max_length=200, blank=False, null=False)
     descricao = models.CharField("Descricao", max_length=1000, blank=False, null=False)
     data_evento = models.DateField('Data', blank=False, null=False)
-    data_termino = models.DateField('Data Término', blank=True, null=True)
+    data_termino = models.DateField('Data Término', blank=False, null=False)
+    data_cancelamento = models.DateField('Data Cancelamento', blank=True, null=True)
     local_evento = models.CharField("Cidade/UF", max_length=100, blank=False, null=False)
     aluno = models.ForeignKey(Aluno, verbose_name='Aluno', on_delete=models.SET_NULL, blank=True, null=True)
     turma = models.ForeignKey(Turma, verbose_name='Turma', on_delete=models.SET_NULL, blank=True, null=True)
     ciclo = models.ForeignKey(Ciclo, verbose_name='Ciclo', on_delete=models.SET_NULL, blank=True, null=True)
     curso = models.ForeignKey(Curso, verbose_name='Curso', on_delete=models.SET_NULL, blank=True, null=True)
     unidade = models.ForeignKey(Unidade, verbose_name='Unidade', on_delete=models.SET_NULL, blank=True, null=True)
+    obs_cancelamento = models.CharField("Obs. Cancelamento", max_length=400, blank=True, null=True)
+    msg_erro_cancelamento = models.CharField("Mens. Erro Cancelamento", max_length=400, blank=True, null=True)
 
     def gera_autorizacoes(self, tipo):
         alunos = []
-        model = AutorizacoesModel.objects.get(tipo=tipo)
+        model = AutorizacoesModel.objects.get(pk=tipo)
         if self.aluno is not None:
             alunos.append(self.aluno)
+
         if self.turma is not None:
             ent = Enturmacao.objects.filter(turma=self.turma)
             for item in ent:
                 alunos.append(item.aluno)
+
         if self.ciclo is not None:
             ciclo = Ciclo.objects.get(pk=self.ciclo.pk)
             for item in ciclo.turma_set.all():
                 for ent in item.enturmacao_set.all():
                     alunos.append(ent.aluno)
+
         if self.curso is not None:
             curso = Curso.objects.get(pk=self.curso.pk)
             for ciclo in curso.ciclo_set.all():
                 for turma in ciclo.turma_set.all():
                     for ent in turma.enturmacao_set.all():
                         alunos.append(ent.aluno)
+
         if self.unidade is not None:
             unidade = Unidade.objects.get(pk=self.unidade.pk)
             for curso in unidade.curso_set.all():
@@ -204,7 +213,7 @@ class Evento(Base):
                         for ent in turma.enturmacao_set.all():
                             alunos.append(ent.aluno)
 
-        autorizacoes_geradas = self.autorizacao_set.all()
+        autorizacoes_geradas = self.autorizacao_set.filter(tipo=model)
         alunos_processados = []
         for a in autorizacoes_geradas:
             alunos_processados.append(a.aluno)
@@ -218,17 +227,42 @@ class Evento(Base):
                                   termos=model.texto)
                 aut.save()
 
-    @staticmethod
-    def get_absolute_url():
-        return reverse('index')
-
     def soft_delete(self):
+        autorizacoes = self.autorizacao_set.all()
+        st = ScheduledTask.objects.filter(task='generateAuth', ativo=True, gv_code=self.pk)
+        if autorizacoes:
+            self.msg_erro_cancelamento = 'Não é possível excluir o evento, pois existem autorizações geradas. Ao' \
+                                         ' invés disso, tente cancelar'
+            self.save()
+            return False
+        if st:
+            for i in st:
+                i.status = 'canceled'
+                i.soft_delete()
+
         self.ativo = False
         self.data_desativado = timezone.now()
         self.save()
+        return True
+
+    def cancelar(self, motivo):
+        self.data_cancelamento = timezone.now()
+        self.save()
+        autorizacoes = self.autorizacao_set.all()
+        responsaveis = []
+        for aut in autorizacoes:
+            responsaveis.append(aut.responsavel)
+            aut.cancelar()
+        responsaveis = list(dict.fromkeys(responsaveis))
+        for item in responsaveis:
+            send_cancel_mail(self, item)
 
     def __str__(self):
         return self.nome
+
+    @staticmethod
+    def get_absolute_url():
+        return reverse('index')
 
     @property
     def scope(self):
@@ -246,6 +280,19 @@ class Evento(Base):
     @property
     def is_past_due(self):
         return date.today() > self.data_evento
+
+    @property
+    def is_canceled(self):
+        return self.data_cancelamento is not None
+
+    @property
+    def has_documents(self):
+        return len(self.autorizacao_set.all()) > 0
+
+    @property
+    def has_scheduled_docs(self):
+        st = ScheduledTask.objects.filter(task='generateAuth', ativo=True, gv_code=self.pk).exclude(status='canceled')
+        return len(st) > 0
 
     class Meta:
         verbose_name = 'Evento'
@@ -274,7 +321,7 @@ class AutorizacoesModel(Base):
     id = models.AutoField(primary_key=True, blank=False, null=False)
     nome = models.CharField("Nome", max_length=100, blank=False, null=False)
     texto = models.TextField("Texto", blank=False, null=False)
-    tipo = models.CharField("Tipo", max_length=15, unique=True, blank=False, null=False, default='imagem')
+    apelido = models.CharField("Apelido", max_length=15, blank=False, null=False)
 
     def soft_delete(self):
         self.ativo = False
@@ -298,6 +345,7 @@ class Autorizacao(Base):
     aluno = models.ForeignKey(Aluno, verbose_name='Aluno', on_delete=models.PROTECT, blank=False, null=False)
     termos = models.TextField("Termos", blank=False, null=False)
     autorizado = models.CharField("Situação", max_length=20, blank=False, null=False, default='Pendente')
+    data_cancelamento = models.DateField('Data Cancelamento', blank=True, null=True)
 
     def soft_delete(self):
         self.ativo = False
@@ -313,6 +361,11 @@ class Autorizacao(Base):
 
     def recusar(self):
         self.autorizado = 'Negado'
+        self.save()
+
+    def cancelar(self):
+        self.autorizado = 'Cancelado'
+        self.data_cancelamento = timezone.now()
         self.save()
 
     class Meta:

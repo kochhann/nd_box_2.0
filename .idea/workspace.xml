@@ -3,13 +3,27 @@
   <component name="ChangeListManager">
     <list default="true" id="5dfdc30b-e061-4833-9525-e061e7e9a049" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/agamotto/scheduled_task.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/agamotto/scheduled_task.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/agamotto/skurge.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/agamotto/skurge.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/autorizacoes/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/autorizacoes/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/autorizacoes/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/autorizacao_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/autorizacao_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/autorizacao_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/autorizacao_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/evento_confirm_delete.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/eventotipoautorizacao_confirm_delete.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/evento_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/evento_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/evento_edit_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/evento_edit_form.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/evento_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/evento_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizador_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizador_dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/coordenador_evento_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/coordenador_evento_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/autorizacoes/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/core/static/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/static/css/custom.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/core/static/js/datepicker.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/static/js/datepicker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/core/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/reports/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/reports/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hermes.py" beforeDir="false" afterPath="$PROJECT_DIR$/hermes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/email/mensagem_teste.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/email/mensagem_teste.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,8 +61,8 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../liraprod" />
-    <property name="settings.editor.selected.configurable" value="proofread" />
+    <property name="last_opened_file_path" value="G:/Meu Drive/Package-HTML/HTML/shop-combination-filter.html" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -59,10 +73,34 @@
       <recent name="E:\Developer\PycharmProjects\nd_box\apps\reports" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\Developer\PycharmProjects\nd_box\apps\autorizacoes\templates" />
       <recent name="E:\Developer\PycharmProjects\nd_box\apps\autorizacoes\templates\autorizacoes" />
+      <recent name="E:\Developer\PycharmProjects\nd_box\apps\autorizacoes\templates\edit_t_aut_evento_modal.html" />
+      <recent name="E:\Developer\PycharmProjects\nd_box\apps\autorizacoes\templates" />
       <recent name="E:\Developer\PycharmProjects\nd_box\apps" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Runapp" type="PythonConfigurationType" factoryName="Python">
+      <module name="nd_box" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="E:\Developer\PycharmProjects\nd_box\venv\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/manage.py" />
+      <option name="PARAMETERS" value="runserver" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

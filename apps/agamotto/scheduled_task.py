@@ -20,7 +20,7 @@ from functions import (
 
 
 def read_scheduled_tasks():
-    st = ScheduledTask.objects.filter(status='scheduled', ativo='1')
+    st = ScheduledTask.objects.filter(status='scheduled', ativo=True)
     if len(st) > 0:
         for item in st:
             if item.task == 'createUser':
