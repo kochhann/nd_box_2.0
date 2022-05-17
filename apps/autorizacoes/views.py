@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from io import BytesIO
 
 from django.utils.decorators import method_decorator
+from reportlab.lib.colors import black
 from reportlab.lib.styles import ParagraphStyle as PS
 from reportlab.platypus import (
     Table,
@@ -346,6 +347,14 @@ class AutorizacaoEventoList(ListView):
         evento_id = self.kwargs['evento_id']
         evento = Evento.objects.get(pk=evento_id)
         autorizacoes = Autorizacao.objects.filter(evento=evento_id)
+        groups = self.request.user.groups.all()
+        autorizador = False
+        coordenador = False
+        for i in groups:
+            if i.name == 'Autorizadores':
+                autorizador = True
+            if i.name == 'Coordenação':
+                coordenador = True
         context['doc_title'] = 'Gestão de eventos'
         context['top_app_name'] = 'Autorizações'
         context['pt_h1'] = 'Gestão de eventos'
@@ -353,6 +362,8 @@ class AutorizacaoEventoList(ListView):
         context['pt_breadcrumb2'] = 'Autorizações'
         context['autorizacoes'] = autorizacoes
         context['evento'] = evento
+        context['is_autorizador'] = autorizador
+        context['is_coordenador'] = coordenador
         return context
 
 
@@ -397,8 +408,6 @@ class AutorizacaoView(DetailView):
         groups = self.request.user.groups.all()
         autorizador = False
         coordenador = False
-        a_id = self.object.pk
-        aut = Autorizacao.objects.get(pk=a_id)
         for i in groups:
             if i.name == 'Autorizadores':
                 autorizador = True
@@ -412,16 +421,19 @@ class AutorizacaoView(DetailView):
         context['is_autorizador'] = autorizador
         context['is_coordenador'] = coordenador
         context['status'] = 'Pendente'
-        if aut.autorizado == 'Autorizado':
-            context['status'] = 'Autorizado'
-            messages.success(self.request, 'Esta atividade foi AUTORIZADA em ' +
-                             aut.data_modificacao.strftime('%d/%m/%Y'))
-        if aut.autorizado == 'Negado':
-            context['status'] = 'Negado'
-            messages.error(self.request, 'Esta atividade foi NEGADA em ' + aut.data_modificacao.strftime('%d/%m/%Y'))
-        if aut.autorizado == 'Cancelado':
-            context['status'] = 'Cancelado'
-            messages.error(self.request, 'Esta atividade foi CANCELADA em ' + aut.evento.data_cancelamento.strftime('%d/%m/%Y'))
+        if self.object.autorizado is not None:
+            if self.object.autorizado:
+                messages.success(self.request, 'Esta atividade foi AUTORIZADA em ' +
+                                 self.object.data_resposta_titular.strftime('%d/%m/%Y'))
+            if not self.object.autorizado:
+                messages.error(self.request, 'Esta atividade foi NEGADA em ' +
+                               self.object.data_resposta_titular.strftime('%d/%m/%Y'))
+        if self.object.revogado:
+            messages.error(self.request, 'Esta autorização foi REVOGADA em ' +
+                           self.object.data_revogacao.strftime('%d/%m/%Y'))
+        if self.object.evento.is_canceled:
+            messages.error(self.request, 'Esta atividade foi CANCELADA em ' +
+                           self.object.evento.data_cancelamento.strftime('%d/%m/%Y'))
         return context
 
 
@@ -433,8 +445,10 @@ class AutorizacaoReleased(View):
         check = self.request.POST.get('inlineRadioOptions', None)
         if check == 'y':
             aut.autorizar()
-        else:
+        elif check == 'n':
             aut.recusar()
+        elif check == 'r':
+            aut.revogar()
         return redirect('autorizacao-released-success')
 
 
@@ -461,18 +475,19 @@ class PrintAutReportView(View):
         evento = Evento.objects.get(pk=evento_id)
         autorizacoes = evento.autorizacao_set.all()
         tipos = []
+        a_status = ''
         for a in autorizacoes:
             tipos.append(a.tipo)
         tipos = list(dict.fromkeys(tipos))  # Remover duplicatas
 
         if report_type == 0:
-            autorizacoes = Autorizacao.objects.filter(evento=evento, autorizado='Autorizado')
+            autorizacoes = Autorizacao.objects.filter(evento=evento, autorizado=True, revogado=False, ativo=True)
             report_type = 'Concedidas'
         if report_type == 1:
-            autorizacoes = Autorizacao.objects.filter(evento=evento, autorizado='Negado')
+            autorizacoes = Autorizacao.objects.filter(evento=evento, autorizado=False, ativo=True)
             report_type = 'Negadas'
         if report_type == 2:
-            autorizacoes = Autorizacao.objects.filter(evento=evento, autorizado='Pendente')
+            autorizacoes = Autorizacao.objects.filter(evento=evento, autorizado=None, ativo=True)
             report_type = 'Pendentes'
         if report_type == 3:
             report_type = 'Todos'
@@ -493,28 +508,28 @@ class PrintAutReportView(View):
             name='Heading2',
             fontName='Times-Bold',
             alignment=TA_CENTER,
-            fontSize=14,
+            fontSize=12,
             leading=14)
 
         c1 = PS(
             name='Cell1',
             fontName='Times-Roman',
             alignment=TA_JUSTIFY,
-            fontSize=12,
+            fontSize=10,
             leading=14)
 
         c2 = PS(
             name='Cell2',
             fontName='Times-Roman',
             alignment=TA_LEFT,
-            fontSize=12,
+            fontSize=10,
             leading=14)
 
         c3 = PS(
             name='Cell1',
             fontName='Times-Bold',
             alignment=TA_JUSTIFY,
-            fontSize=12,
+            fontSize=10,
             leading=14)
 
         n_session = 1
@@ -535,20 +550,31 @@ class PrintAutReportView(View):
                 elements.append(Paragraph(item.nome, c3))
                 elements.append(Spacer(1, 0.25 * cm))
                 for a in autorizacoes:
+                    if a.cancelado is False:
+                        if a.autorizado:
+                            a_status = 'Autorizada em ' + a.data_resposta_titular.strftime("%d/%m/%Y")
+                            if a.revogado:
+                                a_status += ' e revogado em ' + a.data_revogacao.strftime("%d/%m/%Y")
+                        elif a.autorizado is False:
+                            a_status = 'Recusada em ' + a.data_resposta_titular.strftime("%d/%m/%Y")
+                        elif a.autorizado is None:
+                            a_status = 'Pendente'
+                    else:
+                        a_status = 'Cancelada'
                     if a.tipo == item:
                         day = a.data_modificacao.strftime("%d")
                         month = a.data_modificacao.strftime("%m")
                         year = a.data_modificacao.strftime("%Y")
                         data = [[Paragraph(a.aluno.nome.title(), c2),
-                                 '-',
-                                 Paragraph(a.autorizado + ' em ' + a.data_modificacao.strftime("%d/%m/%Y"), c1)]]
-                        t = Table(data, colWidths=[220.0, 15.0, 220.0])
+                                 Paragraph(a_status, c1)]]
+                        t = Table(data, colWidths=[180.0, 260.0])
                         t.setStyle(TableStyle([('ALIGN', (0, 0), (1, 0), 'LEFT'),
-                                               ('ALIGN', (1, 0), (3, 0), 'CENTRE'),
-                                               ('VALIGN', (0, 0), (3, 0), 'TOP'),
+                                               ('ALIGN', (1, 0), (2, 0), 'CENTRE'),
+                                               ('VALIGN', (0, 0), (2, 0), 'TOP'),
+                                               ('INNERGRID', (0, 0), (2, 0), 0.10, black),
+                                               ('BOX', (0, 0), (2, 0), 0.10, black),
                                                ]))
                         elements.append(t)
-                        elements.append(Spacer(1, 0.25 * cm))
         else:
             elements = [Paragraph('Não há autorizações ' + report_type, h2),
                         Spacer(1, 0.25 * cm)]

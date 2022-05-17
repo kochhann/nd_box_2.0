@@ -155,8 +155,16 @@ def update_turma_gv():
                     nt.save()
 
 
-def update_enturmacao():
+def check_enturmacao():
     alunos = Aluno.objects.filter(ativo=True)
     for a in alunos:
         gv_turma = get_turma_aluno(a.matricula, timezone.now().year)
-        a.update_enturmacao(gv_turma)
+        if gv_turma > 0:  # se estiver enturmado
+            if gv_turma == a.turma_atual.gv_code:  # se a turma não foi alterada
+                print(a.nome + ' permanece na mesma turma')
+                continue
+            else:
+                print(a.nome + ' teve a turma modificada')
+                a.update_enturmacao(gv_turma)
+        else:
+            a.remove_enturmacao()

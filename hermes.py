@@ -70,7 +70,8 @@ def send_cancel_mail(evento, responsavel):
     email = render_to_string(email_template_name, m_context)
     subject = 'Rede Notre Dame - Aviso de cancelamento de evento'
     from_email = '"Sistema ND Box" <contato@nd.org.br>'
-    to = responsavel.email
+    to = 'apoio.ti@nd.org.br'
+    # to = responsavel.email
     msg = EmailMultiAlternatives(subject, email, from_email, [to])
     msg.attach_alternative(email, "text/html")
 

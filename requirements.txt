@@ -4,6 +4,7 @@ boto3==1.20.37
 botocore==1.23.37
 Django==3.2.10
 django-ses==2.3.1
+django-session-timeout==0.1.0
 future==0.18.2
 jmespath==0.10.0
 mssql-django==1.1.1

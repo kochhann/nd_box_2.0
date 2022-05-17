@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from datetime import date
+from datetime import date, timedelta
 from hermes import send_cancel_mail
 from apps.core.models import (
     Base,
@@ -91,33 +91,45 @@ class Aluno(Base):
         self.save()
 
     def update_enturmacao(self, gv_origin):
-        if gv_origin != 0:
-            same = gv_origin == self.turma_atual.gv_code
-            if same:
-                print('mesma turma')
-                pass
-            else:
-                print('outra turma')
-                self.remove_enturmacao()
-                self.create_enturmacao(Turma.objects.get(gv_code=gv_origin))
-                eventos = Evento.objects.filter(ativo=True)
-                eventos_aluno = []
-                for e in eventos:
-                    aut = e.autorizacao_set.filter(ativo=True, aluno=self)
-                    if not aut:
-                        if e.unidade == self.unidade:
-                            eventos_aluno.append(e)
-                        if e.aluno == self:
-                            eventos_aluno.append(e)
-                        if e.turma == self.turma_atual:
-                            eventos_aluno.append(e)
-                        if e.ciclo == self.turma_atual.get_ciclo:
-                            eventos_aluno.append(e)
-                        if e.curso == self.turma_atual.get_curso:
-                            eventos_aluno.append(e)
-                if eventos_aluno:
-                    for e in eventos_aluno:
-                        pass  # geração de autorizações
+        self.remove_enturmacao()
+        self.create_enturmacao(Turma.objects.get(gv_code=gv_origin))
+        print('alteração de turma concluída!')
+        # gerenciar autorizações
+        aut = self.autorizacao_set.filter(ativo=True, cancelado=False)
+        autorizacoes = []
+        for i in aut:
+            if not i.evento.is_past_due:
+                autorizacoes.append(i)
+
+        if autorizacoes:  # há autorizações para eventos futuros
+            for i in autorizacoes:
+                if i.evento.turma is not None:
+                    i.cancelar('Aluno trocou de turma.')
+        # Verificar eventos da nova turma
+        eventos = Evento.objects.filter(ativo=True)
+        aut = self.autorizacao_set.filter(ativo=True, cancelado=False)
+        eventos_aluno = []
+        for i in aut:
+            eventos_aluno.append(i.evento)
+
+        for e in eventos:
+            aut = e.autorizacao_set.filter(ativo=True, aluno=self)
+            if not aut:
+                if e.unidade == self.unidade:
+                    eventos_aluno.append(e)
+                if e.aluno == self:
+                    eventos_aluno.append(e)
+                if e.turma == self.turma_atual:
+                    eventos_aluno.append(e)
+                if e.ciclo == self.turma_atual.get_ciclo:
+                    eventos_aluno.append(e)
+                if e.curso == self.turma_atual.get_curso:
+                    eventos_aluno.append(e)
+        eventos_aluno = list(dict.fromkeys(eventos_aluno))
+        if eventos_aluno:
+            for e in eventos_aluno:
+                e.gera_aut_aluno(self)
+        print('gestão de autorizações concluída!')
 
     def create_enturmacao(self, turma):
         enturmacao = Enturmacao(unidade=self.unidade,
@@ -154,7 +166,7 @@ class Enturmacao(Base):
         self.save()
 
     def __str__(self):
-        return self.aluno.nome + ' ' + self.turma.nome + ' - ' + self.turma.ano
+        return self.aluno.nome + ' ' + self.turma.nome + ' - ' + str(self.turma.ano)
 
     @property
     def is_past_due(self):
@@ -227,6 +239,16 @@ class Evento(Base):
                                   termos=model.texto)
                 aut.save()
 
+    def gera_aut_aluno(self, aluno):
+        tipo_aut = self.eventotipoautorizacao_set.filter(ativo=True)
+        for tipo in tipo_aut:
+            aut = Autorizacao(evento=self,
+                              responsavel=aluno.responsavel,
+                              tipo=tipo.tipo_autorizacao,
+                              aluno=aluno,
+                              termos=tipo.tipo_autorizacao.texto)
+            aut.save()
+
     def soft_delete(self):
         autorizacoes = self.autorizacao_set.all()
         st = ScheduledTask.objects.filter(task='generateAuth', ativo=True, gv_code=self.pk)
@@ -247,12 +269,13 @@ class Evento(Base):
 
     def cancelar(self, motivo):
         self.data_cancelamento = timezone.now()
+        self.obs_cancelamento = motivo
         self.save()
         autorizacoes = self.autorizacao_set.all()
         responsaveis = []
         for aut in autorizacoes:
             responsaveis.append(aut.responsavel)
-            aut.cancelar()
+            aut.cancelar('Evento cancelado.')
         responsaveis = list(dict.fromkeys(responsaveis))
         for item in responsaveis:
             send_cancel_mail(self, item)
@@ -344,8 +367,13 @@ class Autorizacao(Base):
     tipo = models.ForeignKey(AutorizacoesModel, verbose_name='Tipo', on_delete=models.PROTECT, blank=False, null=False)
     aluno = models.ForeignKey(Aluno, verbose_name='Aluno', on_delete=models.PROTECT, blank=False, null=False)
     termos = models.TextField("Termos", blank=False, null=False)
-    autorizado = models.CharField("Situação", max_length=20, blank=False, null=False, default='Pendente')
+    autorizado = models.BooleanField("Autorização", blank=True, null=True, default=None)
+    data_resposta_titular = models.DateField('Data Resposta', blank=True, null=True)
+    cancelado = models.BooleanField("Cancelado", blank=False, null=False, default=False)
     data_cancelamento = models.DateField('Data Cancelamento', blank=True, null=True)
+    obs_cancelamento = models.CharField("Obs. Cancelamento", max_length=400, blank=True, null=True)
+    revogado = models.BooleanField("Revogado", blank=False, null=False, default=False)
+    data_revogacao = models.DateField('Data Revogação', blank=True, null=True)
 
     def soft_delete(self):
         self.ativo = False
@@ -356,17 +384,36 @@ class Autorizacao(Base):
         return self.evento.nome + ' - ' + self.aluno.nome
 
     def autorizar(self):
-        self.autorizado = 'Autorizado'
+        self.autorizado = True
+        self.revogado = False
+        self.data_revogacao = None
+        self.data_resposta_titular = timezone.now()
         self.save()
 
     def recusar(self):
-        self.autorizado = 'Negado'
+        self.autorizado = False
+        self.data_resposta_titular = timezone.now()
         self.save()
 
-    def cancelar(self):
-        self.autorizado = 'Cancelado'
+    def cancelar(self, motivo):
+        self.cancelado = True
         self.data_cancelamento = timezone.now()
+        self.obs_cancelamento = motivo
         self.save()
+
+    def revogar(self):
+        self.revogado = True
+        self.data_revogacao = timezone.now()
+        self.save()
+
+    @property
+    def expire_date(self):
+        return self.evento.data_evento + timedelta(days=365)
+
+    @property
+    def is_about_expire(self):
+        today = timezone.now().date()
+        return (self.expire_date - today) < timedelta(days=10)
 
     class Meta:
         verbose_name = 'Autorização'

@@ -1,8 +1,11 @@
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from operator import attrgetter
 from django.contrib import messages
-from django.urls import reverse_lazy
+from django.shortcuts import redirect
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
+from django.views import View
 from django.views.generic import (
     TemplateView,
     FormView
@@ -119,11 +122,14 @@ class IndexView(TemplateView):
         groups = self.request.user.groups.all()
         autorizador = False
         coordenador = False
+        carreiras = False
         for i in groups:
             if i.name == 'Autorizadores':
                 autorizador = True
             if i.name == 'Coordenação':
                 coordenador = True
+            if i.name == 'Carreiras':
+                carreiras = True
         if self.request.user.is_staff or self.request.user.is_anonymous:
             context['doc_title'] = 'Switch'
             context['top_app_name'] = 'Switch'
@@ -162,8 +168,17 @@ class IndexView(TemplateView):
             context['author'] = author
             context['coordenador'] = coord
             context['eventos'] = eventos
+        if carreiras:
+            context['doc_title'] = 'Gestão de Carreiras'
+            context['top_app_name'] = 'Carreiras'
+            context['pt_h1'] = 'Gestão de vagas e candidaturas'
+            context['pt_span'] = self.request.user.first_name + ' - ' + self.request.user.last_name
+            context['pt_breadcrumb2'] = 'Carreiras'
+            context['quote'] = quote
+            context['author'] = author
         context['is_autorizador'] = autorizador
         context['is_coordenador'] = coordenador
+        context['is_carreiras'] = carreiras
         return context
 
 

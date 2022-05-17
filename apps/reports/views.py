@@ -317,6 +317,8 @@ def get_resident_data(id_house):
 
 
 def get_activities(id_annals, id_house):
+    print('id_annals' + str(id_annals))
+    print('id_house' + str(id_house))
     cursor = connection.cursor()
     cursor.execute("SELECT IDANAIS, IDCASA"
                    ", ANO, ATIVIDADEPRINCIPAL"
@@ -568,7 +570,7 @@ class PrintStatisticsView(View):
         summary_2 = general_data[0].SUMARIO2.strip()
 
         response = HttpResponse(content_type='application/pdf')
-        doc = SimpleDocTemplate(response, topMargin=2 * cm, rightMargin=2.5 * cm, leftMargin=2.5 * cm,
+        doc = SimpleDocTemplate(response, topMargin=1.8 * cm, rightMargin=2.5 * cm, leftMargin=2.5 * cm,
                                 bottomMargin=2 * cm)
 
         # Style
@@ -751,8 +753,10 @@ class PrintStatisticsView(View):
                     elements.append(Paragraph('Durante o ano as seguintes Irmãs estavam exclaustradas:', h1))
                 for a in comes:
                     elements.append(Spacer(1, 0.25 * cm))
-                    elements.append(Paragraph(a.NOMERELIGIOSO.title() + ', egressa desde '
-                                              + a.RETORNOEXCLAUSTRACAO, c1))
+                    print(a.DATAEXCLAUSTRACAO + '|')
+                    elements.append(Paragraph(a.NOMERELIGIOSO.title() + ', exclaustrada desde '
+                                              + a.DATAEXCLAUSTRACAO.replace(' ', '') + ', retornou em '
+                                              + a.RETORNOEXCLAUSTRACAO + '.', c1))
                     elements.append(Spacer(1, 0.25 * cm))
         ##
         n_session += 1

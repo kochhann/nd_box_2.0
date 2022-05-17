@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from apps.core.models import Unidade, Base
 from functions import get_file_path
+from datetime import date, timedelta
 
 
 class Area(Base):
@@ -90,6 +91,14 @@ class Candidatura(Base):
 
     def __str__(self):
         return str(self.cod_vaga) + ' - ' + str(self.nome)
+
+    @property
+    def expire_date(self):
+        return self.data_criacao + timedelta(days=365)
+
+    @property
+    def is_past_due(self):
+        return date.today() > self.data_criacao
 
     class Meta:
         verbose_name = 'Candidatura'

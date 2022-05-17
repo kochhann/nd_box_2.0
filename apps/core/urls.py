@@ -4,7 +4,8 @@ from .views import (IndexView,
                     IntranetView,
                     LoginView,
                     RegistrationFormView,
-                    SuccessView)
+                    SuccessView
+                    )
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),

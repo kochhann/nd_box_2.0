@@ -46,4 +46,3 @@ class TurmaAdmin(admin.ModelAdmin):
     def ciclo(self, obj):
         return obj.ciclo.nome
     ciclo.short_description = 'Ciclo'  # set the name of the column
-
