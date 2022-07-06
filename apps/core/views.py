@@ -18,6 +18,10 @@ from apps.autorizacoes.models import (
     Autorizador,
     Coordenador,
     EventoUnidade,
+    AutorizacoesModel,
+)
+from apps.carreiras.models import (
+    Vaga,
 )
 from functions import (
     get_quotes,
@@ -148,16 +152,24 @@ class IndexView(TemplateView):
             context['quote'] = quote
             context['author'] = author
             context['autorizador'] = aut
-            context['dependentes'] = aut.aluno_set.all()
-            context['autorizacoes'] = aut.autorizacao_set.all()
+            context['dependentes'] = aut.aluno_set.filter(ativo=True)
+            context['autorizacoes'] = aut.autorizacao_set.filter(ativo=True, tipo__gerador=1)
+            context['solicitacoes'] = aut.autorizacao_set.filter(ativo=True, tipo__gerador=2)
+            context['tp_solicitacoes'] = AutorizacoesModel.objects.filter(ativo=True, gerador=2)
         if coordenador:
             coord = Coordenador.objects.get(user=self.request.user)
             ev_un = EventoUnidade.objects.filter(ativo=True, unidade=coord.unidade,
                                                  evento__data_cancelamento=None)
             ev_un_x = []
+            solicitacoes = 0
             for e in ev_un:
-                if not e.evento.is_past_due:
-                    ev_un_x.append(e)
+                if e.evento.gerador == 2:
+                    a = e.evento.autorizacao_set.first()
+                    if not a.autorizado:
+                        solicitacoes += 1
+                else:
+                    if not e.evento.is_past_due:
+                        ev_un_x.append(e)
             eventos = sorted(ev_un_x, key=attrgetter('evento.data_evento'))[:2]
             context['doc_title'] = 'Gestão de eventos'
             context['top_app_name'] = 'Autorizações'
@@ -168,7 +180,9 @@ class IndexView(TemplateView):
             context['author'] = author
             context['coordenador'] = coord
             context['eventos'] = eventos
+            context['solicitacoes'] = solicitacoes
         if carreiras:
+            vagas = Vaga.objects.filter(ativo=True, aberta=True).order_by('data_criacao')[:2]
             context['doc_title'] = 'Gestão de Carreiras'
             context['top_app_name'] = 'Carreiras'
             context['pt_h1'] = 'Gestão de vagas e candidaturas'
@@ -176,6 +190,7 @@ class IndexView(TemplateView):
             context['pt_breadcrumb2'] = 'Carreiras'
             context['quote'] = quote
             context['author'] = author
+            context['vagas'] = vagas
         context['is_autorizador'] = autorizador
         context['is_coordenador'] = coordenador
         context['is_carreiras'] = carreiras

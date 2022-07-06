@@ -178,10 +178,16 @@ class Enturmacao(Base):
 
 
 class Evento(Base):
+    GERADOR_CHOICES = [
+        (1, 'Instituição'),
+        (2, 'Família'),
+    ]
+
     id = models.AutoField(primary_key=True, blank=False, null=False)
     nome = models.CharField("Nome", max_length=200, blank=False, null=False)
     descricao = models.CharField("Descricao", max_length=1000, blank=False, null=False)
     data_evento = models.DateField('Data', blank=False, null=False)
+    gerador = models.IntegerField("Gerador", choices=GERADOR_CHOICES, blank=False, null=False, default=1)
     data_termino = models.DateField('Data Término', blank=False, null=False)
     data_cancelamento = models.DateField('Data Cancelamento', blank=True, null=True)
     local_evento = models.CharField("Cidade/UF", max_length=100, blank=False, null=False)
@@ -341,10 +347,16 @@ class EventoUnidade(Base):
 
 
 class AutorizacoesModel(Base):
+    GERADOR_CHOICES = [
+        (1, 'Instituição'),
+        (2, 'Família'),
+    ]
+
     id = models.AutoField(primary_key=True, blank=False, null=False)
     nome = models.CharField("Nome", max_length=100, blank=False, null=False)
     texto = models.TextField("Texto", blank=False, null=False)
     apelido = models.CharField("Apelido", max_length=15, blank=False, null=False)
+    gerador = models.IntegerField("Gerador", choices=GERADOR_CHOICES, blank=False, null=False, default=1)
 
     def soft_delete(self):
         self.ativo = False
@@ -361,7 +373,7 @@ class AutorizacoesModel(Base):
 
 class Autorizacao(Base):
     id = models.AutoField(primary_key=True, blank=False, null=False)
-    evento = models.ForeignKey(Evento, verbose_name='Evento', on_delete=models.PROTECT, blank=False, null=False)
+    evento = models.ForeignKey(Evento, verbose_name='Evento', on_delete=models.PROTECT, blank=True, null=True)
     responsavel = models.ForeignKey(Autorizador, verbose_name='Responsável', on_delete=models.PROTECT, blank=False,
                                     null=False)
     tipo = models.ForeignKey(AutorizacoesModel, verbose_name='Tipo', on_delete=models.PROTECT, blank=False, null=False)
@@ -414,6 +426,10 @@ class Autorizacao(Base):
     def is_about_expire(self):
         today = timezone.now().date()
         return (self.expire_date - today) < timedelta(days=10)
+
+    @staticmethod
+    def get_absolute_url():
+        return reverse('index')
 
     class Meta:
         verbose_name = 'Autorização'

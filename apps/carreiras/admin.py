@@ -14,7 +14,7 @@ class AreaAdmin(admin.ModelAdmin):
 
 @admin.register(Vaga)
 class VagaAdmin(admin.ModelAdmin):
-    list_display = ['cod_vaga', 'unidade', 'descricao',  'preenchida', 'data_criacao', 'ativo']
+    list_display = ['cod_vaga', 'unidade', 'titulo',  'preenchida', 'data_criacao', 'ativo']
 
 
 @admin.register(Candidatura)

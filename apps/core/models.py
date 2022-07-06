@@ -63,7 +63,7 @@ class Curso(Base):
         return self.unidade
 
     def __str__(self):
-        return self.nome
+        return str(self.unidade.gv_code) + ' - ' + self.nome
 
     class Meta:
         verbose_name = 'Curso'

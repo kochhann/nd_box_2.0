@@ -10,18 +10,20 @@ from .views import (
     AutorizacaoSuccess,
     AutorizacaoScheduled,
     AutorizacaoView,
+    AutorizacaoCreate,
     AutorizacaoReleaseSuccess,
     AutorizacaoReleased,
     PrintAutReportView,
-    gera_autorizacoes,
     EventoTipoAutorizacaoDelete,
-    EventoCancel
+    EventoCancel,
+    AutorizacaoGerar
 )
 
 
 urlpatterns = [
     path('<int:id_autorizador>/', AutorizadorView.as_view(), name='autorizador-detail'),
-    path('gera_autorizacoes/<int:evento_id>', gera_autorizacoes, name='autorizacao-gerar'),
+    path('autorizacoes/gerar/<int:pk>', AutorizacaoGerar.as_view(), name='autorizacao-gerar'),
+    path('autorizacoes/create/<int:pk>', AutorizacaoCreate.as_view(), name='autorizacao-create'),
     path('evento/delete/<int:pk>/', EventoDelete.as_view(), name='evento-delete'),
     path('evento/create/', EventoCreate.as_view(), name='evento-create'),
     path('evento/list/', EventoUnidadeList.as_view(), name='evento-list'),

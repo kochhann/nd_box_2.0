@@ -9,7 +9,7 @@
         <select name="cod_vaga" class="form-select" id="id_cod_vaga">
             <option value="" selected>-- Vaga --</option>
             {% for item in vagas %}
-                <option value="{{item.id}}">{{item.nome}}</option>
+                <option value="{{item.id}}">{{item.titulo}} - {{item.unidade}}</option>
             {% endfor %}
         </select>
     </div>
@@ -128,13 +128,39 @@
     document.getElementById("id_escolaridade").onchange =
     function() {
         var slctd = document.getElementById("id_escolaridade").value;
-        if(slctd > 4){
+        if(slctd > 4) {
             document.getElementById("jobs-course").disabled = false;
         }
         else{
             ipt = document.getElementById("jobs-course");
             ipt.value = '';
             ipt.disabled = true;
+        }
+    }
+</script>
+<script>
+    document.getElementById("id_cod_vaga").onchange =
+    function() {
+        var slctd = document.getElementById("id_cod_vaga").value;
+        if(slctd != ""){
+            document.getElementById("id_cidade").disabled = true;
+            document.getElementById("id_cidade").required = false;
+
+            document.getElementById("id_area_interesse").disabled = true;
+            document.getElementById("id_area_interesse").required = false;
+
+            document.getElementById("id_unidade_interesse").disabled = true;
+            document.getElementById("id_unidade_interesse").required = false;
+        }
+        else{
+            document.getElementById("id_cidade").disabled = false;
+            document.getElementById("id_cidade").required = true;
+
+            document.getElementById("id_area_interesse").disabled = false;
+            document.getElementById("id_area_interesse").required = true;
+
+            document.getElementById("id_unidade_interesse").disabled = false;
+            document.getElementById("id_unidade_interesse").required = true;
         }
     }
 </script>

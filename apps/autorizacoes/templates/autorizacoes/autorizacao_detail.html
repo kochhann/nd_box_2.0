@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="col-md-8">
-                    <h5>Dados do evento</h5>
+                    <h5>{% if not solicitacao %} Dados do evento {% else %} Informações {% endif %}</h5>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><b>{{ object.evento }}</b></li>
                         <li class="list-group-item">Quando:
@@ -47,75 +47,97 @@
                 <!-- final conteúdo -->
 
                 {% if is_autorizador %}
-                    {% if not object.evento.is_canceled and not object.cancelado%}
-                        <form method="post" action="{% url 'autorizacao-released' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="autorizacao" value="{{object.pk}}">
-                            <div class="col-md-12 form-group">
-                                {% if object.autorizado is None %}
-                                <div class="label">
-                                    <label>Após ler o termo, você concorda com as cláusulas apresentadas?</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="y">
-                                    <label class="form-check-label" for="inlineRadio1">Sim</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="n">
-                                    <label class="form-check-label" for="inlineRadio2">Não</label>
-                                </div>
-                                {% elif object.autorizado and not object.revogado %}
-                                <div class="label">
-                                    <label>Você aceitou esta autorização em {{object.data_resposta_titular}}.</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="r">
-                                    <label class="form-check-label" for="inlineRadio3">Revogar?</label>
-                                </div>
-                                {% elif not object.autorizado or object.revogado %}
-                                <div class="label">
-                                    <label>Você recusou esta autorização em {{object.data_resposta_titular}}.</label>
-                                </div>
-                                    {% if not object.evento.is_past_due %}
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="y">
-                                    <label class="form-check-label" for="inlineRadio3">Autorizar?</label>
-                                </div>
+                    {% if not solicitacao %}
+                        {% if not object.evento.is_canceled and not object.cancelado%}
+                            <form method="post" action="{% url 'autorizacao-released' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="autorizacao" value="{{object.pk}}">
+                                <div class="col-md-12 form-group">
+                                    {% if object.autorizado is None %}
+                                    <div class="label">
+                                        <label>Após ler o termo, você concorda com as cláusulas apresentadas?</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="y">
+                                        <label class="form-check-label" for="inlineRadio1">Sim</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="n">
+                                        <label class="form-check-label" for="inlineRadio2">Não</label>
+                                    </div>
+                                    {% elif object.autorizado and not object.revogado %}
+                                    <div class="label">
+                                        <label>Você aceitou esta autorização em {{object.data_resposta_titular}}.</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="r">
+                                        <label class="form-check-label" for="inlineRadio3">Revogar?</label>
+                                    </div>
+                                    {% elif not object.autorizado or object.revogado %}
+                                    <div class="label">
+                                        <label>Você recusou esta autorização em {{object.data_resposta_titular}}.</label>
+                                    </div>
+                                        {% if not object.evento.is_past_due %}
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="y">
+                                        <label class="form-check-label" for="inlineRadio3">Autorizar?</label>
+                                    </div>
+                                        {% endif %}
                                     {% endif %}
-                                {% endif %}
 
 
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" name="consent-submit" id="consent-submit" class="button button-border button-rounded button-blue">Enviar</button>
+                                </div>
+
+                                <input type="hidden" name="prefix" value="consent-">
+                            </form>
+                        {% elif object.cancelado %}
+                            <div class="col-md-12 form-group">
+                                <div class="label">
+                                    <label>Autorização cancelada em {{ object.data_cancelamento }} pelo seguinte motivo:</label>
+                                </div>
+                                <blockquote class="quote">
+                                    <p><i>{{ object.obs_cancelamento }}</i></p>
+                                </blockquote>
                             </div>
                             <div class="col-12">
-                                <button type="submit" name="consent-submit" id="consent-submit" class="button button-border button-rounded button-blue">Enviar</button>
+                            <a href="{% url 'index' %}" class="button button-border button-rounded button-blue">Voltar</a>
                             </div>
-
-                            <input type="hidden" name="prefix" value="consent-">
-                        </form>
-                    {% elif object.cancelado %}
-                         <div class="col-md-12 form-group">
-                            <div class="label">
-                                <label>Autorização cancelada em {{ object.data_cancelamento }} pelo seguinte motivo:</label>
+                        {% elif object.evento.is_canceled %}
+                            <div class="col-md-12 form-group">
+                                <div class="label">
+                                    <label>Evento cancelado em {{ object.evento.data_cancelamento }} pelo seguinte motivo:</label>
+                                </div>
+                                <blockquote class="quote">
+                                    <p><i>{{ object.evento.obs_cancelamento }}</i></p>
+                                </blockquote>
                             </div>
-                            <blockquote class="quote">
-                                <p><i>{{ object.obs_cancelamento }}</i></p>
-                            </blockquote>
-                        </div>
-                        <div class="col-12">
-                        <a href="{% url 'index' %}" class="button button-border button-rounded button-blue">Voltar</a>
-                        </div>
-                    {% elif object.evento.is_canceled %}
-                        <div class="col-md-12 form-group">
-                            <div class="label">
-                                <label>Evento cancelado em {{ object.evento.data_cancelamento }} pelo seguinte motivo:</label>
+                            <div class="col-12">
+                            <a href="{% url 'index' %}" class="button button-border button-rounded button-blue">Voltar</a>
                             </div>
-                            <blockquote class="quote">
-                                <p><i>{{ object.evento.obs_cancelamento }}</i></p>
-                            </blockquote>
-                        </div>
-                        <div class="col-12">
-                        <a href="{% url 'index' %}" class="button button-border button-rounded button-blue">Voltar</a>
-                        </div>
+                        {% endif %}
+                    {% else %}
+                        {% if object.autorizado %}
+                            <div class="col-md-12 form-group">
+                                <div class="label">
+                                    <label>Solicitação lida em {{ object.data_resposta_titular }}</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                            <a href="{% url 'index' %}" class="button button-border button-rounded button-blue">Voltar</a>
+                            </div>
+                        {% elif not object.autorizado %}
+                            <div class="col-md-12 form-group">
+                                <div class="label">
+                                    <label>Solicitação não foi lida.</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                            <a href="{% url 'index' %}" class="button button-border button-rounded button-blue">Voltar</a>
+                            </div>
+                        {% endif %}
                     {% endif %}
 
                 {% elif is_coordenador %}

@@ -1,11 +1,11 @@
 from django.contrib import messages
 from operator import attrgetter
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
-from datetime import date
-from django.http import HttpResponse
+from datetime import datetime
+from django.utils import timezone
+from django.http import HttpResponse, HttpResponseRedirect
 from io import BytesIO
 
 from django.utils.decorators import method_decorator
@@ -45,37 +45,15 @@ from apps.core.models import (
 from .forms import (
     EventoForm,
     EventoEditForm,
-    EventoCancelForm
+    EventoCancelForm,
+    AutorizacaoForm
 )
 from apps.agamotto.models import ScheduledTask
 
 
-def gera_autorizacoes(request, evento_id):
-    evento = Evento.objects.get(pk=evento_id)
-    tipos = []
-    for item in evento.eventotipoautorizacao_set.all():
-        tipos.append(item.tipo_autorizacao)
-
-    check = ScheduledTask.objects.filter(gv_code=evento_id, task='generateAuth')
-    if len(check) > 0:
-        for i in check:
-            if i.status == 'scheduled':
-                return redirect('evento-autorizacoes-scheduled')
-            if i.status == 'completed':
-                return redirect('evento-autorizacoes-success')
-    else:
-        for item in tipos:
-            st = ScheduledTask(task='generateAuth',
-                               status='scheduled',
-                               gv_code=evento_id,
-                               extra_field=item.pk)
-            st.save()
-        return redirect('evento-autorizacoes-success')
-
-
 @method_decorator(login_required, name='dispatch')
 class AutorizadorView(TemplateView):
-    template_name = 'autorizador_dashboard.html'
+    template_name = 'autorizador_index.html'
 
     def get_context_data(self, **kwargs):
         context = super(AutorizadorView, self).get_context_data(**kwargs)
@@ -115,7 +93,7 @@ class EventoCreate(CreateView):
     def get_context_data(self, **kwargs):
         coord = Coordenador.objects.get(user=self.request.user)
         unidade = coord.unidade
-        t_autorizacoes = AutorizacoesModel.objects.all()
+        t_autorizacoes = AutorizacoesModel.objects.filter(ativo=True, gerador=1)
         cursos = Curso.objects.filter(unidade=unidade, ativo=True)
         alunos = Aluno.objects.filter(unidade=unidade, ativo=True)
         ciclos = Ciclo.objects.filter(curso__in=cursos, ativo=True)
@@ -139,6 +117,7 @@ class EventoCreate(CreateView):
     def form_valid(self, form, *args, **kwargs):
         evento = form.save(commit=False)
         evento.ativo = True
+        evento.gerador = 1
         evento.save()
         tipo = form.cleaned_data.get('tipo_autorizacao')
         # inclui as categorias de autorização que serão necessárias
@@ -166,7 +145,7 @@ class EventoUnidadeList(ListView):
     def get_context_data(self, **kwargs):
         coord = Coordenador.objects.get(user=self.request.user)
         context = super(EventoUnidadeList, self).get_context_data(**kwargs)
-        ev_un = EventoUnidade.objects.filter(ativo=True, unidade=coord.unidade)
+        ev_un = EventoUnidade.objects.filter(ativo=True, unidade=coord.unidade, evento__gerador=1)
         eventos = sorted(ev_un, key=attrgetter('evento.data_evento'))
         passados = []
         agendados = []
@@ -309,6 +288,7 @@ class EventoView(DetailView):
 
 class EventoTipoAutorizacaoDelete(DeleteView):
     model = EventoTipoAutorizacao
+
     # success_url = reverse_lazy('index')
 
     def get_context_data(self, **kwargs):
@@ -421,19 +401,23 @@ class AutorizacaoView(DetailView):
         context['is_autorizador'] = autorizador
         context['is_coordenador'] = coordenador
         context['status'] = 'Pendente'
-        if self.object.autorizado is not None:
-            if self.object.autorizado:
-                messages.success(self.request, 'Esta atividade foi AUTORIZADA em ' +
-                                 self.object.data_resposta_titular.strftime('%d/%m/%Y'))
-            if not self.object.autorizado:
-                messages.error(self.request, 'Esta atividade foi NEGADA em ' +
-                               self.object.data_resposta_titular.strftime('%d/%m/%Y'))
-        if self.object.revogado:
-            messages.error(self.request, 'Esta autorização foi REVOGADA em ' +
-                           self.object.data_revogacao.strftime('%d/%m/%Y'))
-        if self.object.evento.is_canceled:
-            messages.error(self.request, 'Esta atividade foi CANCELADA em ' +
-                           self.object.evento.data_cancelamento.strftime('%d/%m/%Y'))
+        context['solicitacao'] = False
+        if self.object.tipo.gerador == 1:
+            if self.object.autorizado is not None:
+                if self.object.autorizado:
+                    messages.success(self.request, 'Esta atividade foi AUTORIZADA em ' +
+                                     self.object.data_resposta_titular.strftime('%d/%m/%Y'))
+                if not self.object.autorizado:
+                    messages.error(self.request, 'Esta atividade foi NEGADA em ' +
+                                   self.object.data_resposta_titular.strftime('%d/%m/%Y'))
+            if self.object.revogado:
+                messages.error(self.request, 'Esta autorização foi REVOGADA em ' +
+                               self.object.data_revogacao.strftime('%d/%m/%Y'))
+            if self.object.evento.is_canceled:
+                messages.error(self.request, 'Esta atividade foi CANCELADA em ' +
+                               self.object.evento.data_cancelamento.strftime('%d/%m/%Y'))
+        else:
+            context['solicitacao'] = True
         return context
 
 
@@ -466,6 +450,78 @@ class AutorizacaoReleaseSuccess(TemplateView):
         context['is_autorizador'] = True
         context['tipo'] = 'aut'
         return context
+
+
+class AutorizacaoGerar(View):
+    def get(self, request, *args, **kwargs):
+        evento = Evento.objects.get(pk=self.kwargs['pk'])
+        tipos = []
+        for item in evento.eventotipoautorizacao_set.all():
+            tipos.append(item.tipo_autorizacao)
+
+        check = ScheduledTask.objects.filter(gv_code=self.kwargs['pk'], task='generateAuth')
+        if len(check) > 0:
+            for i in check:
+                if i.status == 'scheduled':
+                    return redirect('evento-autorizacoes-scheduled')
+                if i.status == 'completed':
+                    return redirect('evento-autorizacoes-success')
+        else:
+            for item in tipos:
+                st = ScheduledTask(task='generateAuth',
+                                   status='scheduled',
+                                   gv_code=self.kwargs['pk'],
+                                   extra_field=item.pk)
+                st.save()
+            return redirect('evento-autorizacoes-success')
+
+
+class AutorizacaoCreate(CreateView):
+    model = Autorizacao
+    form_class = AutorizacaoForm
+
+    def get_context_data(self, **kwargs):
+        context = super(AutorizacaoCreate, self).get_context_data(**kwargs)
+        aut = Autorizador.objects.get(user=self.request.user)
+        tp_aut = AutorizacoesModel.objects.get(pk=self.kwargs['pk'])
+        context['doc_title'] = 'Área do Usuário'
+        context['top_app_name'] = 'Autorizações'
+        context['pt_h1'] = 'Gestão de Solicitações'
+        context['pt_span'] = 'Nova Solicitação'
+        context['pt_breadcrumb2'] = 'Área do usuário'
+        context['tipo'] = tp_aut
+        context['autorizador'] = aut
+        context['dependentes'] = aut.aluno_set.filter(ativo=True)
+        return context
+
+    def form_valid(self, form, *args, **kwargs):
+        tipo = AutorizacoesModel.objects.get(pk=self.request.POST.get('tipo', None))
+        resp = Autorizador.objects.get(user=self.request.user)
+        dt_inicio = self.request.POST.get('data_evento', None)
+        dt_fim = self.request.POST.get('data_termino', None)
+        aut = form.save(commit=False)
+        evento = Evento(nome=tipo.nome + ' - ' + aut.aluno.nome,
+                        descricao=self.request.POST.get('descricao', None),
+                        data_evento=datetime.strptime(dt_inicio, "%d/%m/%Y").date(),
+                        data_termino=datetime.strptime(dt_fim, "%d/%m/%Y").date(),
+                        local_evento='N/A',
+                        gerador=2,
+                        aluno=aut.aluno,)
+        evento.save()
+        ev_un = EventoUnidade(evento=evento, unidade=aut.aluno.unidade)
+        ev_un.save()
+        aut.tipo = tipo
+        aut.evento = evento
+        aut.termos = tipo.texto
+        aut.responsavel = resp
+        aut.autorizado = False
+        messages.success(self.request, 'Solicitação enviada com sucesso')
+        return super(AutorizacaoCreate, self).form_valid(form)
+
+    def form_invalid(self, form, *args, **kwargs):
+        print(form.errors)
+        messages.error(self.request, 'Erro ao processar solicitação')
+        return super(AutorizacaoCreate, self).form_invalid(form, *args, **kwargs)
 
 
 class PrintAutReportView(View):

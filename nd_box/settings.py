@@ -157,4 +157,5 @@ EMAIL_BACKEND = config('EMAIL_BACKEND')
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 
-SESSION_EXPIRE_SECONDS = 1800  # 30 min
+SESSION_EXPIRE_SECONDS = 1800              # 30 min
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True     # opional, as this will log you out when browser is closed

@@ -1,5 +1,9 @@
 from django import forms
-from .models import Evento, AutorizacoesModel
+from .models import (
+    Evento,
+    AutorizacoesModel,
+    Autorizacao
+)
 
 
 class EventoForm(forms.ModelForm):
@@ -53,3 +57,14 @@ class EventoCancelForm(forms.ModelForm):
     class Meta:
         model = Evento
         fields = ['obs_cancelamento']
+
+
+class AutorizacaoForm(forms.ModelForm):
+    tipo = forms.CharField(label='Tipo')
+    data_evento = forms.DateField(label='Data início')
+    data_termino = forms.DateField(label='Data fim')
+    descricao = forms.CharField(label='Descrição')
+
+    class Meta:
+        model = Autorizacao
+        fields = ['aluno']

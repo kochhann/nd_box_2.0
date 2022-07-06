@@ -18,6 +18,7 @@
                                 <ul class="tab-nav clearfix">
                                     <li><a href="#tab-relatives"><i class="icon-child"></i> Dependentes</a></li>
                                     <li><a href="#tab-authorizations"><i class="icon-files"></i> Autorizações</a></li>
+                                    <li><a href="#tab-gerar"><i class="icon-line-square-plus"></i> Minhas solicitações</a></li>
                                     <li><a href="#tab-login"><i class="icon-connection-empty"></i> Últimos acessos</a></li>
                                 </ul>
                                 <div class="tab-container">
@@ -131,6 +132,57 @@
                                         </table>
                                     </div>
 
+                                    <!-- Gerar documentos
+                                    ============= -->
+                                    <div class="tab-content clearfix" id="tab-gerar">
+
+                                        <div class="row">
+                                            <div class="postcontent col-lg">
+
+                                                <a href="#" class="button button-small button-border button-rounded button-blue"
+                                                   style="float: right;" data-bs-toggle="modal" data-bs-target="#modal_tipo_solicitacao">
+                                                    Nova
+                                                </a>
+
+                                                <p>Situação das suas solicitações</p>
+                                                <table class="table table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Tipo</th>
+                                                            <th>Aluno</th>
+                                                            <th>Data envio</th>
+                                                            <th>Situação</th>
+                                                            <th>Detalhes</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for aut in solicitacoes %}
+                                                        <tr>
+                                                            <td>{{aut.tipo.apelido}}</td>
+                                                            <td>{{aut.aluno.nome}}</td>
+                                                            <td>{{aut.data_criacao}}</td>
+                                                            <td style="">
+                                                                {% if aut.autorizado %}
+                                                                    Recebida
+                                                                {% else %}
+                                                                    Aguardando
+                                                                {% endif %}
+                                                            </td>
+                                                            <td><a href="{% url 'autorizacao-detail' aut.pk %}"><i class="icon-eye"></i></a></td>
+                                                        </tr>
+                                                    {% empty %}
+                                                        <tr>
+                                                            <td colspan="5">
+                                                                Sem dados para exibir
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <!-- Acessos
                                     ============= -->
                                     <div class="tab-content clearfix" id="tab-login">
@@ -167,4 +219,5 @@
             </div>
         </div>
     </div>
+    {% include 'tipo_solicitacao_modal.html' %}
 </section><!-- #content end -->

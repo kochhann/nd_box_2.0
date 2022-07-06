@@ -54,11 +54,14 @@
 
 		</div>
 		{% endif %}
-		{% if autorizador %}
-			{% include 'autorizador_dashboard.html' %}
+		{% if is_autorizador %}
+			{% include 'autorizador_index.html' %}
 		{% endif %}
-		{% if coordenador %}
+		{% if is_coordenador %}
 			{% include 'coordenador_index.html' %}
+		{% endif %}
+		{% if is_carreiras %}
+			{% include 'carreiras_index.html' %}
 		{% endif %}
 
 	</div>
