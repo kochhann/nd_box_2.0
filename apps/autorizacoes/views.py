@@ -347,6 +347,32 @@ class AutorizacaoEventoList(ListView):
         return context
 
 
+class MensagensList(ListView):
+    template_name = 'message_list.html'
+
+    def get_queryset(self):
+        coord = Coordenador.objects.get(user=self.request.user)
+        ev_un = EventoUnidade.objects.filter(ativo=True, unidade=coord.unidade,
+                                             evento__data_cancelamento=None)
+        solicitacoes = []
+        for e in ev_un:
+            if e.evento.gerador == 2:
+                a = e.evento.autorizacao_set.first()
+                solicitacoes.append(a)
+        return solicitacoes
+
+    def get_context_data(self, **kwargs):
+        coord = Coordenador.objects.get(user=self.request.user)
+        context = super(MensagensList, self).get_context_data(**kwargs)
+        context['doc_title'] = 'Caixa de entrada'
+        context['top_app_name'] = 'Solicitações'
+        context['pt_h1'] = 'Caixa de entrada'
+        context['pt_span'] = coord.name + ' - ' + coord.unidade.nome
+        context['pt_breadcrumb2'] = 'Solicitações'
+        context['coordenador'] = coord
+        return context
+
+
 class AutorizacaoSuccess(TemplateView):
     template_name = 'success_auth_generation.html'
 

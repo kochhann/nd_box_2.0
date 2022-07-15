@@ -16,7 +16,8 @@ from .views import (
     PrintAutReportView,
     EventoTipoAutorizacaoDelete,
     EventoCancel,
-    AutorizacaoGerar
+    AutorizacaoGerar,
+    MensagensList
 )
 
 
@@ -38,4 +39,5 @@ urlpatterns = [
     path('autorizacao/released/', AutorizacaoReleased.as_view(), name='autorizacao-released'),
     path('autorizacao/print/<int:rpt_type>/<int:evento_id>/', PrintAutReportView.as_view(), name='autorizacao-print'),
     path('evento/tipo_aut/delete/<int:pk>/', EventoTipoAutorizacaoDelete.as_view(), name='evento-ta-delete'),
+    path('mensagens/list/', MensagensList.as_view(), name='mensagem-list')
 ]
