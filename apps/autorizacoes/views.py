@@ -353,7 +353,7 @@ class MensagensList(ListView):
     def get_queryset(self):
         coord = Coordenador.objects.get(user=self.request.user)
         ev_un = EventoUnidade.objects.filter(ativo=True, unidade=coord.unidade,
-                                             evento__data_cancelamento=None)
+                                             evento__data_cancelamento=None).order_by('data_criacao')
         solicitacoes = []
         for e in ev_un:
             if e.evento.gerador == 2:
@@ -444,6 +444,10 @@ class AutorizacaoView(DetailView):
                                self.object.evento.data_cancelamento.strftime('%d/%m/%Y'))
         else:
             context['solicitacao'] = True
+            if coordenador:
+                if self.object.autorizado is not None or self.object.autorizado is False:
+                    aut = Autorizacao.objects.get(pk=self.kwargs['pk'])
+                    aut.autorizar()
         return context
 
 

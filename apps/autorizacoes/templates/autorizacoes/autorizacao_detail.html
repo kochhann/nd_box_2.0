@@ -141,46 +141,67 @@
                     {% endif %}
 
                 {% elif is_coordenador %}
-                    {% if object.autorizado is None %}
-                        {% if not object.cancelado %}
-                            {% if not object.evento.is_canceled %}
-                            <div class="col-md-12 form-group">
-                                <div class="label">
-                                    Aguardando retorno do responsável.
+                    {% if not solicitacao %}
+                        {% if object.autorizado is None %}
+                            {% if not object.cancelado %}
+                                {% if not object.evento.is_canceled %}
+                                <div class="col-md-12 form-group">
+                                    <div class="label">
+                                        Aguardando retorno do responsável.
+                                    </div>
                                 </div>
-                            </div>
+                                {% else %}
+                                <div class="col-md-12 form-group">
+                                    <div class="label">
+                                        Não houve retorno do responsável.
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <div class="label">
+                                        <label>Evento cancelado em {{ object.evento.data_cancelamento }} pelo seguinte motivo:</label>
+                                    </div>
+                                    <blockquote class="quote">
+                                        <p><i>{{ object.evento.obs_cancelamento }}</i></p>
+                                    </blockquote>
+                                </div>
+                                <div class="col-12">
+                                    <a href="{% url 'index' %}" class="button button-border button-rounded button-blue">Voltar</a>
+                                </div>
+                                {% endif %}
                             {% else %}
+                                <div class="col-md-12 form-group">
+                                    <div class="label">
+                                        <label>Autorização cancelada em {{ object.data_cancelamento }} pelo seguinte motivo:</label>
+                                    </div>
+                                    <blockquote class="quote">
+                                        <p><i>{{ object.obs_cancelamento }}</i></p>
+                                    </blockquote>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                        <label>Solicitação respondida em {{ object.data_resposta_titular }}</label>
+                        {% endif %}
+                    {% else %}
+                        {% if object.autorizado %}
                             <div class="col-md-12 form-group">
                                 <div class="label">
-                                    Não houve retorno do responsável.
+                                    <label>Solicitação lida em {{ object.data_resposta_titular }}</label>
                                 </div>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <div class="label">
-                                    <label>Evento cancelado em {{ object.evento.data_cancelamento }} pelo seguinte motivo:</label>
-                                </div>
-                                <blockquote class="quote">
-                                    <p><i>{{ object.evento.obs_cancelamento }}</i></p>
-                                </blockquote>
                             </div>
                             <div class="col-12">
-                                <a href="{% url 'index' %}" class="button button-border button-rounded button-blue">Voltar</a>
+                                <a href="{% url 'mensagem-list' %}" class="button button-border button-rounded button-blue">Voltar</a>
                             </div>
-                            {% endif %}
                         {% else %}
                             <div class="col-md-12 form-group">
                                 <div class="label">
-                                    <label>Autorização cancelada em {{ object.data_cancelamento }} pelo seguinte motivo:</label>
+                                    <label>Solicitação não foi lida.</label>
                                 </div>
-                                <blockquote class="quote">
-                                    <p><i>{{ object.obs_cancelamento }}</i></p>
-                                </blockquote>
+                            </div>
+                            <div class="col-12">
+                            <a href="{% url 'mensagem-list' %}" class="button button-border button-rounded button-blue">Voltar</a>
                             </div>
                         {% endif %}
-                    {% else %}
-                    <label>Solicitação respondida em {{ object.data_resposta_titular }}</label>
                     {% endif %}
-
                 {% endif %}
             </div>
 

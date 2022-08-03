@@ -7,10 +7,10 @@
   <component name="ChangeListManager">
     <list default="true" id="5dfdc30b-e061-4833-9525-e061e7e9a049" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/coordenador_index.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/coordenador_index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/agamotto/skurge.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/agamotto/skurge.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/autorizacao_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/autorizacoes/autorizacao_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/autorizacoes/templates/message_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/templates/message_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/autorizacoes/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/autorizacoes/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/carreiras/templates/vaga_search.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/carreiras/templates/vaga_search.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +47,7 @@
     &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Developer/PycharmProjects/nd_box/apps/autorizacoes/templates&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Developer/PycharmProjects/liraprod&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
